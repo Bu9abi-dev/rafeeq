@@ -1,7 +1,11 @@
 {
+  "framework": null,
   "outputDirectory": "public",
   "cleanUrls": true,
   "functions": {
-    "api/**/*.js": { "maxDuration": 60, "includeFiles": "{seed/**,prompt.mjs,db.mjs,app.mjs}" }
+    "api/**/*.js": {
+      "maxDuration": 60,
+      "includeFiles": "{seed/**,prompt.mjs,db.mjs,app.mjs}"
+    }
   }
 }
