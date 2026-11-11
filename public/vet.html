@@ -84,13 +84,14 @@ $("vetName").onchange = () => { try { localStorage.setItem("vetName", $("vetName
 async function api(path, body) {
   const res = await fetch(path, { method: body ? "POST" : "GET", headers: { "x-vet-password": pw, "Content-Type": "application/json" }, body: body ? JSON.stringify(body) : undefined });
   if (res.status === 401) throw new Error("401");
+  if (!res.ok) throw new Error("HTTP " + res.status);
   return res.json();
 }
 
 async function login() {
-  pw = $("pw").value || pw;
+  pw = ($("pw").value || pw).trim();
   try { await api("/api/vet/stats"); sessionStorage.setItem("vetpw", pw); $("login").hidden = true; $("app").hidden = false; refresh(); setInterval(refresh, 5000); }
-  catch { $("loginErr").textContent = "كلمة المرور غير صحيحة"; }
+  catch (e) { $("loginErr").textContent = e.message === "401" ? "رمز الدخول غير صحيح" : "تعذر الاتصال بالخادم (" + e.message + ")"; sessionStorage.removeItem("vetpw"); }
 }
 $("go").onclick = login; $("pw").onkeydown = (e) => e.key === "Enter" && login();
 if (pw) login();

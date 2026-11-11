@@ -6,7 +6,8 @@ import { SYSTEM_PROMPT, knowledgeBlock, settingsNote } from "./prompt.mjs";
 import * as db from "./db.mjs";
 
 const MODEL = process.env.CLAUDE_MODEL || "claude-opus-5-5";
-const VET_PASSWORD = process.env.VET_PASSWORD || "";
+// trimmed + case-insensitive: env values pasted on Windows often carry a stray space or newline
+const VET_PASSWORD = (process.env.VET_PASSWORD || "").trim().toUpperCase();
 
 export const keyMissing = !process.env.ANTHROPIC_API_KEY || process.env.ANTHROPIC_API_KEY.includes("xxxx");
 if (!VET_PASSWORD) console.warn("  Warning: VET_PASSWORD is not set in .env, so the vet dashboard is locked.");
@@ -27,7 +28,7 @@ async function readBody(req) {
 const json = (res, code, obj) => res.writeHead(code, { "Content-Type": "application/json; charset=utf-8" }).end(JSON.stringify(obj));
 
 function isVet(req) {
-  const given = Buffer.from(String(req.headers["x-vet-password"] || ""));
+  const given = Buffer.from(String(req.headers["x-vet-password"] || "").trim().toUpperCase());
   const real = Buffer.from(VET_PASSWORD);
   return VET_PASSWORD && given.length === real.length && timingSafeEqual(given, real);
 }
