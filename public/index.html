@@ -5,147 +5,184 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>رفيق | Rafeeq</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&family=Noto+Naskh+Arabic:wght@600;700&family=IBM+Plex+Serif:wght@600&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&display=swap">
+<meta name="theme-color" content="#f2f2f7">
 <style>
+  /* Apple design language (after the Spendings app): system type, inset grouped lists, glass only on floating chrome. */
   :root {
-    --bg: #f7f5f0; --paper: #ffffff; --ink: #1c2430; --ink2: #3d4757; --muted: #5f6877;
-    --line: #e2ddd2; --line2: #cfc8b9; --accent: #0f5b4a; --accent2: #0b4639; --accentbg: #e8f1ee; --sand: #b08a4f;
-    --mis: #8a5300; --study: #1d5f8a; --harm: #a3271c; --more: #5d6470; --ok: #0f6b4f;
-    --serif: "Noto Naskh Arabic", "IBM Plex Serif", Georgia, serif;
-    --body: "IBM Plex Sans Arabic", system-ui, sans-serif;
+    color-scheme: light dark;
+    --bg: #f2f2f7; --bg-2: #ffffff; --label: #000; --label-2: #5f5f64; --label-3: #aeaeb2; --placeholder: #6c6c70;
+    --sep: rgba(60,60,67,.16); --fill-2: rgba(120,120,128,.16); --fill-3: rgba(118,118,128,.12);
+    --tint: #1f7a5c; --tint-text: #17694e; --on-tint: #fff;
+    --bubble: #e9e9eb; --good: #2d7a45; --warn: #a34809; --neg: #b92f27;
+    --mis: #b25c00; --study: #2a6fc4; --harm: #c0352c; --more: #6c6c70;
+    --i-falcon: #c27a1a; --i-horse: #8a5a3b; --i-saluki: #4f7f9c;
+    --glass-bg: rgba(255,255,255,.6); --glass-rim: rgba(255,255,255,.9); --glass-rim-2: rgba(255,255,255,.25); --glass-edge: rgba(0,0,0,.06);
+    --glass-shadow: 0 10px 30px rgba(0,0,0,.12), 0 1px 3px rgba(0,0,0,.08);
+    --font: -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Arabic", "IBM Plex Sans Arabic", system-ui, "Segoe UI", sans-serif;
+    --font-display: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Arabic", "IBM Plex Sans Arabic", system-ui, sans-serif;
+    --r-group: 22px; --ease-out: cubic-bezier(.23,1,.32,1);
   }
-  html { font-size: clamp(15px, .5vw + 9.5px, 30px); } /* scales up on booth TVs */
-  * { box-sizing: border-box; }
-  body { margin: 0; min-height: 100dvh; color: var(--ink); font: 1rem/1.7 var(--body); background: var(--bg); display: flex; flex-direction: column; }
+  @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+    --bg: #000; --bg-2: #1c1c1e; --label: #fff; --label-2: #aeaeb2; --label-3: #636366; --placeholder: #98989d;
+    --sep: rgba(84,84,88,.55); --fill-2: rgba(120,120,128,.32); --fill-3: rgba(118,118,128,.24);
+    --tint: #4cc293; --tint-text: #6fd3a9; --on-tint: #062a1d; --bubble: #26252a; --good: #6cc788; --warn: #f0a24e; --neg: #f07067;
+    --mis: #e08a2c; --study: #5b9cf0; --harm: #ec6a60; --more: #98989d;
+    --glass-bg: rgba(40,40,44,.55); --glass-rim: rgba(255,255,255,.28); --glass-rim-2: rgba(255,255,255,.06); --glass-edge: rgba(255,255,255,.08);
+    --glass-shadow: 0 10px 30px rgba(0,0,0,.5), 0 1px 3px rgba(0,0,0,.4);
+  } }
+  html { font-size: 106.25%; -webkit-text-size-adjust: 100%; background: var(--bg); } /* 17px, iOS body size */
+  @media (min-width: 1600px) { html { font-size: clamp(19px, 1.05vw, 30px); } } /* booth TV */
+  *, *::before, *::after { box-sizing: border-box; }
+  body { margin: 0; min-height: 100dvh; background: var(--bg); color: var(--label); font: 1rem/1.45 var(--font); -webkit-font-smoothing: antialiased; -webkit-tap-highlight-color: transparent; display: flex; flex-direction: column; }
+  :lang(en) body { letter-spacing: -.012em; } /* tracking only for Latin: it breaks Arabic joins */
   button, select, input { font: inherit; color: inherit; }
-  button { cursor: pointer; min-height: max(44px, 2.75rem); min-width: 44px; border-radius: .5rem; border: 1px solid var(--line2); background: var(--paper); padding: 0 1rem; transition: background .15s, border-color .15s; }
-  button:hover { border-color: var(--accent); background: var(--accentbg); }
-  :focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; }
+  button { cursor: pointer; background: none; border: 0; padding: 0; min-height: 44px; min-width: 44px; touch-action: manipulation; transition: transform .16s var(--ease-out), background-color .15s, opacity .2s; }
+  button:active { transform: scale(.97); }
+  :focus { outline: none; }
+  :focus-visible { outline: 2px solid var(--tint); outline-offset: 2px; border-radius: 12px; }
   [hidden] { display: none !important; }
+  .i { flex: none; display: block; }
 
-  /* top bar */
-  .top { display: flex; align-items: center; justify-content: space-between; gap: .75rem; flex-wrap: wrap; padding: .7rem clamp(1rem, 3vw, 2.5rem); background: var(--paper); border-bottom: 1px solid var(--line); }
-    .brand { display: flex; align-items: center; gap: .7rem; }
-  .mark { width: 2.5rem; height: 2.5rem; border-radius: .5rem; background: var(--accent); color: #fff; display: grid; place-items: center; font: 700 1.35rem/1 var(--serif); flex: none; }
-  .brand b { display: block; font: 700 1.2rem/1.2 var(--serif); }
-  .brand small { display: block; font-size: .75rem; color: var(--muted); line-height: 1.3; }
-  .badge { font-size: .72rem; font-weight: 600; color: var(--accent); border: 1px solid var(--accent); border-radius: .25rem; padding: .1rem .6rem; margin-inline-start: .3rem; white-space: nowrap; }
-  .actions { display: flex; gap: .5rem; align-items: center; }
-  .seg { display: inline-flex; border: 1px solid var(--line2); border-radius: .5rem; overflow: hidden; }
-  .seg button { border: none; border-radius: 0; min-width: 3rem; font-size: .9rem; font-weight: 600; background: var(--paper); }
-  .seg button[aria-pressed="true"] { background: var(--ink); color: #fff; }
-  #reset { display: inline-flex; gap: .4rem; align-items: center; font-weight: 600; }
-  #gear { width: 2.75rem; padding: 0; display: grid; place-items: center; color: var(--muted); }
-  .staff { width: 100%; display: flex; flex-wrap: wrap; gap: .5rem; align-items: center; justify-content: flex-end; font-size: .85rem; color: var(--muted); border-top: 1px solid var(--line); padding-top: .6rem; }
-  .staff select, .staff a { color: var(--ink); background: var(--paper); border: 1px solid var(--line2); border-radius: .5rem; min-height: 2.75rem; padding: 0 .6rem; }
-  .staff a { display: inline-grid; place-items: center; text-decoration: none; }
+  .ambient { position: fixed; inset: 0; z-index: -1; pointer-events: none; background:
+    radial-gradient(60% 40% at 10% 0%, color-mix(in srgb, var(--tint) 12%, transparent), transparent 70%),
+    radial-gradient(50% 35% at 100% 30%, color-mix(in srgb, var(--study) 8%, transparent), transparent 70%),
+    radial-gradient(60% 40% at 50% 100%, color-mix(in srgb, var(--i-falcon) 8%, transparent), transparent 70%), var(--bg); }
+  .glass { position: relative; background: var(--glass-bg); -webkit-backdrop-filter: blur(16px) saturate(1.9) brightness(1.04); backdrop-filter: blur(16px) saturate(1.9) brightness(1.04);
+    box-shadow: inset 0 1px .5px var(--glass-rim), inset 0 -1px 1px var(--glass-rim-2), 0 0 0 .5px var(--glass-edge), var(--glass-shadow); }
+  @media (prefers-reduced-transparency: reduce) { .glass { background: var(--bg-2); backdrop-filter: none; -webkit-backdrop-filter: none; } }
+
+  /* nav bar */
+  .top { position: sticky; top: 0; z-index: 20; display: flex; align-items: center; justify-content: space-between; gap: .6rem; flex-wrap: wrap; padding: .45rem clamp(1rem, 3vw, 2rem);
+    background: color-mix(in srgb, var(--bg) 72%, transparent); -webkit-backdrop-filter: blur(20px) saturate(1.8); backdrop-filter: blur(20px) saturate(1.8); box-shadow: 0 .5px 0 var(--sep); }
+  .brand { display: flex; align-items: center; gap: .6rem; min-width: 0; }
+  .appicon { width: 2.3rem; height: 2.3rem; border-radius: 22.5%; flex: none; display: grid; place-items: center; color: #fff; font: 700 1.25rem/1 var(--font-display);
+    background: linear-gradient(160deg, #3fa57c, #145c44); box-shadow: inset 0 1px .5px rgba(255,255,255,.35), 0 2px 6px rgba(0,0,0,.15); }
+  .brand b { display: block; font-size: 1rem; font-weight: 600; line-height: 1.2; }
+  .brand small { display: block; font-size: .76rem; color: var(--label-2); line-height: 1.2; }
+  .actions { display: flex; gap: .4rem; align-items: center; }
+  .seg { position: relative; display: inline-grid; grid-auto-flow: column; grid-auto-columns: 1fr; padding: 3px; border-radius: 999px; background: var(--fill-3); }
+  .seg button { position: relative; min-height: 38px; padding: 0 .9rem; border-radius: 999px; font-size: .85rem; font-weight: 600; color: var(--label-2); }
+  .seg button[aria-pressed="true"] { background: var(--bg-2); color: var(--label); box-shadow: 0 2px 6px rgba(0,0,0,.1), inset 0 .5px 0 var(--glass-rim); }
+  .icon-btn { width: 44px; height: 44px; display: grid; place-items: center; border-radius: 50%; color: var(--tint-text); }
+  .icon-btn:hover { background: var(--fill-3); }
+  #reset { display: inline-flex; align-items: center; gap: .35rem; padding: 0 1rem; min-height: 44px; border-radius: 999px; background: color-mix(in srgb, var(--tint) 14%, transparent); color: var(--tint-text); font-size: .88rem; font-weight: 600; }
+  .staff { width: 100%; display: flex; flex-wrap: wrap; gap: .5rem; align-items: center; justify-content: flex-end; font-size: .85rem; color: var(--label-2); padding: .4rem 0 .2rem; }
+  .staff select, .staff a, .staff button { color: var(--label); background: var(--bg-2); border: 0; border-radius: 999px; min-height: 36px; padding: 0 .9rem; text-decoration: none; display: inline-grid; place-items: center; box-shadow: 0 0 0 .5px var(--sep); }
   .staff label { display: inline-flex; gap: .4rem; align-items: center; }
 
   /* layout */
-  .layout { flex: 1; width: 100%; max-width: 92rem; margin: 0 auto; display: grid; grid-template-columns: minmax(0, 1fr) 21rem; gap: clamp(1rem, 2.5vw, 2.5rem); padding: 0 clamp(1rem, 3vw, 2.5rem); }
-  .convo { display: flex; flex-direction: column; min-height: calc(100dvh - 7rem); max-width: 50rem; width: 100%; margin-inline: auto; }
+  .layout { flex: 1; width: 100%; max-width: 76rem; margin: 0 auto; display: grid; grid-template-columns: minmax(0, 1fr) 21rem; gap: clamp(1rem, 3vw, 2.5rem); padding: 0 clamp(1rem, 3vw, 2rem); }
+  .convo { display: flex; flex-direction: column; min-height: calc(100dvh - 4rem); max-width: 44rem; width: 100%; margin-inline: auto; }
 
-  /* empty state */
-  .hero { flex: 1; display: flex; flex-direction: column; justify-content: center; padding: 2.2rem 0 1rem; gap: .8rem; }
-  .kicker { font-size: .8rem; font-weight: 600; color: var(--accent); letter-spacing: .02em; }
-  .hero h1 { margin: 0; font: 700 clamp(1.9rem, 3.6vw, 2.7rem)/1.45 var(--serif); color: var(--ink); }
-  :lang(en) .hero h1, :lang(en) .notes h2, :lang(en) .brand b { font-family: "IBM Plex Serif", Georgia, serif; line-height: 1.25; }
-  .hero p { margin: 0; color: var(--ink2); max-width: 40rem; }
-  .steps { list-style: none; display: flex; flex-wrap: wrap; gap: .2rem 1.2rem; padding: 0; margin: .2rem 0 .4rem; font-size: .82rem; color: var(--muted); }
-  .steps::before { content: attr(data-label); font-weight: 600; color: var(--ink2); width: 100%; }
-  .steps li { display: flex; align-items: center; gap: .45rem; }
-  .steps b { flex: none; display: inline-grid; place-items: center; width: 1.4rem; height: 1.4rem; border-radius: 50%; background: var(--accentbg); color: var(--accent); font-size: .8rem; }
-  .samples-h { margin: .6rem 0 0; font-size: .85rem; font-weight: 600; color: var(--muted); }
-  .samples { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: .6rem; width: 100%; }
-  .samples button { display: flex; flex-direction: column; align-items: flex-start; gap: .15rem; text-align: start; padding: .8rem .95rem; min-height: 5rem; border-color: var(--line); border-radius: .6rem; }
-  .samples b { font-size: .78rem; font-weight: 600; color: var(--accent); }
-  .samples span { font-size: .95rem; color: var(--ink); unicode-bidi: plaintext; }
+  /* large title + grouped lists */
+  .hero { flex: 1; padding: 1.8rem 0 1rem; }
+  .eyebrow { font-size: .82rem; font-weight: 600; color: var(--tint-text); }
+  .hero h1 { margin: .2rem 0 .4rem; font: 700 clamp(1.9rem, 4vw, 2.6rem)/1.15 var(--font-display); }
+  :lang(en) .hero h1 { letter-spacing: -.02em; }
+  .hero > p { margin: 0; color: var(--label-2); max-width: 36rem; }
+  .group-title { margin: 1.5rem 0 .5rem; padding-inline: 1rem; font-size: 1.15rem; font-weight: 700; }
+  .group { background: var(--bg-2); border-radius: var(--r-group); overflow: hidden; margin: 0; padding: 0; list-style: none; }
+  .row { position: relative; display: flex; align-items: center; gap: .8rem; width: 100%; min-height: 3.5rem; padding: .6rem 1rem; text-align: start; border-radius: 0; }
+  .row + .row::before { content: ""; position: absolute; top: 0; inset-inline-end: 0; inset-inline-start: 3.9rem; border-top: .5px solid var(--sep); }
+  button.row:active { background: var(--fill-3); transform: none; }
+  button.row:hover { background: color-mix(in srgb, var(--fill-3) 60%, transparent); }
+  .row-icon { width: 2.1rem; height: 2.1rem; flex: none; display: grid; place-items: center; border-radius: 22.5%; color: #fff; background: var(--tint); font-weight: 700; font-size: 1rem; font-style: normal; }
+  .row-main { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 1px; }
+  .row-main b { font-weight: 400; font-size: 1rem; unicode-bidi: plaintext; }
+  .row-main span { font-size: .82rem; color: var(--label-2); unicode-bidi: plaintext; }
+  .chev { color: var(--label-3); flex: none; }
+  [dir="rtl"] .chev { transform: scaleX(-1); }
+  .steps .row-icon svg { width: 1.15rem; height: 1.15rem; }
+  .samples .row-main b { font-weight: 500; }
+  .samples .row-main span { order: -1; font-size: .78rem; font-weight: 600; color: var(--label-2); }
   .convo:has(#log .msg) .hero { display: none; }
 
-  /* conversation */
-  #log { display: flex; flex-direction: column; gap: 1rem; padding: 1.5rem 0 1rem; }
+  /* conversation: Messages-style */
+  #log { display: flex; flex-direction: column; gap: .35rem; padding: 1.5rem 0 1rem; }
   .convo:has(#log .msg) #log { flex: 1; }
-  .msg { max-width: 88%; white-space: pre-wrap; unicode-bidi: plaintext; }
-  .msg.user { align-self: flex-start; background: var(--accentbg); color: var(--ink); border: 1px solid #cfe0da; padding: .6rem 1rem; border-radius: .9rem; border-start-start-radius: .25rem; }
-  .msg.assistant, .msg.vet { align-self: flex-end; background: var(--paper); border: 1px solid var(--line); padding: .75rem 1rem; border-radius: .9rem; border-start-end-radius: .25rem; font-size: 1.03rem; }
-  .msg.assistant::before, .msg.vet::before { display: block; font-size: .72rem; font-weight: 700; margin-bottom: .2rem; }
-  .msg.assistant::before { content: "رفيق"; color: var(--accent); } :lang(en) .msg.assistant::before { content: "Rafeeq"; }
-  .msg.assistant { border-inline-start: 3px solid var(--accent); border-radius: .4rem; }
-  .msg.vet { border-color: var(--ok); background: var(--accentbg); }
-  .msg.vet::before { content: "الطبيب البيطري"; color: var(--ok); } :lang(en) .msg.vet::before { content: "Veterinarian"; }
-  .msg.interim { opacity: .6; font-style: italic; }
-  .msg.error { color: var(--harm); }
+  .msg { max-width: 80%; white-space: pre-wrap; unicode-bidi: plaintext; padding: .5rem .85rem; border-radius: 1.15rem; animation: pop .35s var(--ease-out); }
+  @keyframes pop { from { opacity: 0; transform: translateY(.4rem) scale(.98); } }
+  .msg.user { align-self: flex-start; background: var(--tint); color: var(--on-tint); margin-top: .6rem; }
+  .msg.assistant, .msg.vet { align-self: flex-end; background: var(--bubble); }
+  .msg.assistant::before, .msg.vet::before { display: block; font-size: .72rem; font-weight: 600; color: var(--label-2); margin-bottom: .1rem; }
+  .msg.assistant::before { content: "رفيق"; } :lang(en) .msg.assistant::before { content: "Rafeeq"; }
+  .msg.vet { background: color-mix(in srgb, var(--good) 16%, var(--bg-2)); box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--good) 35%, transparent); }
+  .msg.vet::before { content: "الطبيب البيطري"; color: var(--good); } :lang(en) .msg.vet::before { content: "Veterinarian"; }
+  .msg.interim { opacity: .55; }
+  .msg.error { color: var(--neg); }
 
-  /* composer dock */
-  .dock { position: sticky; bottom: 0; padding: .8rem 0 1rem; background: linear-gradient(to top, var(--bg) 75%, transparent); }
-  .dock label { display: block; font-size: .85rem; font-weight: 600; color: var(--ink2); margin: 0 .2rem .35rem; }
-  .composer { display: flex; align-items: center; gap: .5rem; padding: .4rem; border-radius: .8rem; background: var(--paper); border: 1.5px solid var(--line2); box-shadow: 0 .3rem 1.2rem rgba(28,36,48,.07); }
-  .composer:focus-within { border-color: var(--accent); box-shadow: 0 0 0 .25rem rgba(15,91,74,.15); }
-  #text { flex: 1; min-width: 0; border: none; background: transparent; font-size: 1.1rem; min-height: 3.2rem; padding: 0 .7rem; }
+  /* floating glass composer */
+  .dock { position: sticky; bottom: 0; padding: 1.4rem 0 max(.8rem, env(safe-area-inset-bottom)); background: linear-gradient(to top, var(--bg) 55%, color-mix(in srgb, var(--bg) 0%, transparent)); }
+  .dock label { display: block; font-size: .8rem; font-weight: 600; color: var(--label-2); margin: 0 1rem .35rem; }
+  .composer { display: flex; align-items: center; gap: .35rem; padding: .3rem; border-radius: 999px; }
+  .composer:focus-within { box-shadow: inset 0 1px .5px var(--glass-rim), 0 0 0 3px color-mix(in srgb, var(--tint) 35%, transparent), var(--glass-shadow); }
+  #text { flex: 1; min-width: 0; border: 0; background: transparent; font-size: 1.06rem; min-height: 2.9rem; padding: 0 .9rem; caret-color: var(--tint); }
   #text:focus-visible { outline: none; }
-  #text::placeholder { color: #8a909a; }
-  #mic { width: 3.2rem; height: 3.2rem; padding: 0; border-radius: .6rem; display: grid; place-items: center; color: var(--ink2); flex: none; }
-  #mic svg { width: 1.35rem; height: 1.35rem; fill: currentColor; }
-  #mic.listening { background: var(--harm); border-color: var(--harm); color: #fff; animation: pulse 1.4s ease-in-out infinite; }
-  #mic.thinking { color: var(--accent); border-color: var(--accent); }
-  #mic.speaking { background: var(--accent); border-color: var(--accent); color: #fff; }
-  @keyframes pulse { 50% { box-shadow: 0 0 0 .4rem rgba(163,39,28,.18); } }
-  #send { height: 3.2rem; width: 3.2rem; padding: 0; border: none; border-radius: .6rem; background: var(--accent); color: #fff; display: grid; place-items: center; flex: none; }
-  #send:hover { background: var(--accent2); }
-  #send svg { width: 1.3rem; height: 1.3rem; }
-  [dir="rtl"] #send svg { transform: scaleX(-1); }
-  .disclaimer { margin: .5rem 0 0; font-size: .82rem; color: var(--ink2); border-inline-start: 3px solid var(--sand); padding-inline-start: .6rem; }
-  #status { min-height: 1.4em; font-size: .82rem; color: var(--muted); text-align: center; margin-top: .4rem; }
+  #text::placeholder { color: var(--placeholder); }
+  #mic, #send { width: 2.9rem; height: 2.9rem; border-radius: 50%; display: grid; place-items: center; flex: none; }
+  #mic { color: var(--tint-text); }
+  #mic:hover { background: var(--fill-3); }
+  #mic svg { width: 1.3rem; height: 1.3rem; fill: currentColor; }
+  #mic.listening { background: var(--neg); color: #fff; animation: pulse 1.4s ease-in-out infinite; }
+  #mic.thinking { color: var(--label-3); }
+  #mic.speaking { background: var(--tint); color: var(--on-tint); }
+  @keyframes pulse { 50% { box-shadow: 0 0 0 .4rem color-mix(in srgb, var(--neg) 22%, transparent); } }
+  #send { background: var(--tint); color: var(--on-tint); }
+  #send svg { width: 1.25rem; height: 1.25rem; }
+  #status { min-height: 1.3em; font-size: .78rem; color: var(--label-2); text-align: center; margin-top: .4rem; }
+  .disclaimer { margin: .2rem 1rem 0; font-size: .76rem; color: var(--label-2); text-align: center; }
   @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation: none !important; transition: none !important; } }
 
   /* practice log rail */
-  .notes { position: sticky; top: 1rem; align-self: start; margin-top: 1.5rem; background: var(--paper); border: 1px solid var(--line); border-radius: .7rem; overflow: hidden; }
-  .notes h2 { margin: 0; padding: .9rem 1rem .1rem; font: 700 1.05rem var(--serif); }
-  .notes > p { margin: 0 1rem .6rem; font-size: .78rem; color: var(--muted); }
-  .legend { display: grid; grid-template-columns: 1fr 1fr; gap: .25rem .8rem; margin: 0 1rem .8rem; padding-bottom: .7rem; border-bottom: 1px solid var(--line); font-size: .75rem; color: var(--ink2); }
-  .dot { display: inline-block; width: .6rem; height: .6rem; border-radius: 2px; margin-inline-end: .4rem; vertical-align: -.05rem; }
-  #records { padding: 0 1rem 1rem; max-height: 70vh; overflow-y: auto; }
-  .card { background: var(--paper); border: 1px solid var(--line); border-radius: .5rem; padding: .7rem .8rem; margin-bottom: .55rem; border-inline-start: .25rem solid var(--more); }
-  .card h3 { margin: 0; font-size: .95rem; font-weight: 700; unicode-bidi: plaintext; }
-  .card .meta { color: var(--muted); font-size: .72rem; }
-  .card p { margin: .35rem 0 0; color: var(--ink2); font-size: .8rem; unicode-bidi: plaintext; text-align: start; }
+  .notes { position: sticky; top: 4.5rem; align-self: start; margin-top: 1.8rem; }
+  .notes h2 { margin: 0 1rem .15rem; font-size: 1.15rem; font-weight: 700; }
+  .notes > p { margin: 0 1rem .7rem; font-size: .8rem; color: var(--label-2); }
+  .legend { display: grid; grid-template-columns: 1fr 1fr; gap: .2rem .8rem; margin: 0 1rem .7rem; font-size: .76rem; color: var(--label-2); }
+  .dot { display: inline-block; width: .55rem; height: .55rem; border-radius: 50%; margin-inline-end: .35rem; }
+  #records { background: var(--bg-2); border-radius: var(--r-group); max-height: 68vh; overflow-y: auto; }
+  .card { position: relative; padding: .8rem 1rem; border-inline-start: 0 solid; }
+  .card + .card::before { content: ""; position: absolute; top: 0; inset-inline: 1rem 0; border-top: .5px solid var(--sep); }
+  .card h3 { margin: 0; font-size: .95rem; font-weight: 600; unicode-bidi: plaintext; }
+  .card .meta { color: var(--label-2); font-size: .74rem; }
+  .card p { margin: .3rem 0 0; color: var(--label-2); font-size: .8rem; unicode-bidi: plaintext; text-align: start; }
   .card p:empty { display: none; }
-  .tag { display: inline-block; margin-top: .35rem; padding: .05rem .5rem; border-radius: .25rem; font-size: .72rem; font-weight: 600; color: #fff; }
-  .urgent { color: var(--harm); font-weight: 700; font-size: .82rem; margin-top: .3rem; }
-  .review { display: flex; flex-wrap: wrap; gap: .4rem; margin-top: .45rem; font-size: .82rem; }
-  .approved, .kb { color: var(--ok); font-weight: 600; }
-  .waiting { color: var(--mis); font-weight: 600; }
+  .tag { display: inline-block; margin-top: .35rem; padding: .1rem .55rem; border-radius: 999px; font-size: .72rem; font-weight: 600; color: #fff; }
+  .urgent { color: var(--neg); font-weight: 600; font-size: .8rem; margin-top: .3rem; }
+  .review { display: flex; flex-wrap: wrap; gap: .4rem; margin-top: .4rem; font-size: .8rem; }
+  .approved, .kb { color: var(--good); font-weight: 600; }
+  .waiting { color: var(--warn); font-weight: 600; }
   .urgent::before, .waiting::before, .approved::before, .kb::before { content: ""; display: inline-block; width: .45rem; height: .45rem; margin-inline-end: .4rem; border-radius: 50%; background: currentColor; vertical-align: middle; }
-  .vetans { width: 100%; padding: .5rem .6rem; border-radius: .4rem; background: var(--accentbg); unicode-bidi: plaintext; }
-  .empty { color: var(--muted); font-size: .85rem; padding: .3rem 0 .5rem; }
+  .vetans { width: 100%; padding: .5rem .7rem; border-radius: .8rem; background: color-mix(in srgb, var(--good) 12%, transparent); unicode-bidi: plaintext; }
+  .empty { color: var(--label-2); font-size: .85rem; padding: .9rem 1rem; }
 
-  @media (min-width: 1600px) { html { font-size: clamp(20px, 1.05vw, 30px); } .layout { max-width: 110rem; } }
-  footer { text-align: center; color: var(--muted); font-size: .75rem; padding: .7rem 1rem 1rem; border-top: 1px solid var(--line); background: var(--paper); }
+  footer { text-align: center; color: var(--label-2); font-size: .72rem; padding: .4rem 1rem 1rem; }
 
   @media (max-width: 1100px) {
     .layout { grid-template-columns: minmax(0, 1fr); }
-    .notes { position: static; margin: 0 auto 1rem; width: 100%; max-width: 50rem; }
+    .notes { position: static; order: -1; margin: 1rem auto 0; width: 100%; max-width: 44rem; }
+    .notes:has(.empty) { display: none; } #records { max-height: 30vh; }
     .convo { min-height: auto; }
-    .notes { order: -1; margin-top: 1rem; } .notes:has(.empty) { display: none; } #records { max-height: 30vh; }
   }
   @media (max-width: 640px) {
-    .samples { grid-template-columns: minmax(0, 1fr); } .samples button { min-height: auto; }
-    .brand small, .badge { display: none; }
-    #reset span { display: none; }
+    .brand small { display: none; }
+    #reset span { display: none; } #reset { padding: 0; width: 44px; justify-content: center; }
+    .seg button { padding: 0 .65rem; }
   }
 </style>
 </head>
 <body>
+<div class="ambient" aria-hidden="true"></div>
 <header class="top">
-  <div class="brand"><div class="mark" aria-hidden="true">ر</div><div><b><span data-i18n="name"></span> <span class="badge" data-i18n="badge"></span></b><small data-i18n="tagline"></small></div></div>
+  <div class="brand"><div class="appicon" aria-hidden="true">ر</div><div><b data-i18n="name"></b><small data-i18n="badge"></small></div></div>
   <div class="actions">
     <div class="seg" role="group" aria-label="Language">
       <button type="button" data-lang="ar-AE" aria-pressed="true">العربية</button>
       <button type="button" data-lang="en-US" aria-pressed="false">English</button>
     </div>
     <select id="lang" hidden><option value="ar-AE">ar</option><option value="en-US">en</option></select>
-    <button id="reset"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg><span data-i18n="newv"></span></button>
-    <button id="gear" aria-label="Staff settings" title="Staff settings"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg></button>
+    <button id="reset"><svg class="i" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg><span data-i18n="newv"></span></button>
+    <button id="gear" class="icon-btn" aria-label="Staff settings" title="Staff settings"><svg class="i" viewBox="0 0 24 24" width="22" height="22" fill="currentColor" aria-hidden="true"><circle cx="5" cy="12" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="19" cy="12" r="2"/></svg></button>
   </div>
   <div class="staff" id="staff" hidden>
     <label>Audience
@@ -166,29 +203,31 @@
 <main class="layout">
   <section class="convo">
     <div class="hero">
-      <div class="kicker" data-i18n="kicker"></div>
+      <div class="eyebrow" data-i18n="kicker"></div>
       <h1 data-i18n="title"></h1>
       <p data-i18n="sub"></p>
-      <ol class="steps" id="steps">
-        <li><b>1</b><span data-i18n="s1"></span></li>
-        <li><b>2</b><span data-i18n="s2"></span></li>
-        <li><b>3</b><span data-i18n="s3"></span></li>
-        <li><b>4</b><span data-i18n="s4"></span></li>
-      </ol>
-      <p class="samples-h" data-i18n="try"></p>
-      <div class="samples" id="samples">
-        <button data-k="falcon"><b data-i18n="falcon"></b><span data-i18n="q_falcon"></span></button>
-        <button data-k="horse"><b data-i18n="horse"></b><span data-i18n="q_horse"></span></button>
-        <button data-k="saluki"><b data-i18n="saluki"></b><span data-i18n="q_saluki"></span></button>
+
+      <h2 class="group-title" data-i18n="try"></h2>
+      <div class="group samples" id="samples">
+        <button class="row" data-k="falcon"><i class="row-icon" style="background:var(--i-falcon)">ص</i><span class="row-main"><span data-i18n="falcon"></span><b data-i18n="q_falcon"></b></span><svg class="i chev" width="9" height="15" viewBox="0 0 9 15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M1.5 1.5l6 6-6 6"/></svg></button>
+        <button class="row" data-k="horse"><i class="row-icon" style="background:var(--i-horse)">خ</i><span class="row-main"><span data-i18n="horse"></span><b data-i18n="q_horse"></b></span><svg class="i chev" width="9" height="15" viewBox="0 0 9 15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M1.5 1.5l6 6-6 6"/></svg></button>
+        <button class="row" data-k="saluki"><i class="row-icon" style="background:var(--i-saluki)">س</i><span class="row-main"><span data-i18n="saluki"></span><b data-i18n="q_saluki"></b></span><svg class="i chev" width="9" height="15" viewBox="0 0 9 15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M1.5 1.5l6 6-6 6"/></svg></button>
       </div>
+
+      <h2 class="group-title" data-i18n="method"></h2>
+      <ol class="group steps" id="steps">
+        <li class="row"><i class="row-icon" style="background:#0a84ff"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M4 5.5A2.5 2.5 0 0 1 6.5 3h11A2.5 2.5 0 0 1 20 5.5v8a2.5 2.5 0 0 1-2.5 2.5H10l-4.2 3.6c-.5.4-1.3.1-1.3-.6V16A2.5 2.5 0 0 1 4 13.5z"/></svg></i><span class="row-main"><b data-i18n="s1"></b></span></li>
+        <li class="row"><i class="row-icon" style="background:#5e5ce6"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M11 2l1.8 5.2L18 9l-5.2 1.8L11 16l-1.8-5.2L4 9l5.2-1.8zM18 14l.9 2.1L21 17l-2.1.9L18 20l-.9-2.1L15 17l2.1-.9z"/></svg></i><span class="row-main"><b data-i18n="s2"></b></span></li>
+        <li class="row"><i class="row-icon" style="background:#ff375f"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M9 3h6v6h6v6h-6v6H9v-6H3V9h6z"/></svg></i><span class="row-main"><b data-i18n="s3"></b></span></li>
+        <li class="row"><i class="row-icon" style="background:#30a46c"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></i><span class="row-main"><b data-i18n="s4"></b></span></li>
+      </ol>
     </div>
     <div id="log" aria-live="polite"></div>
     <div class="dock">
-      <label for="text" data-i18n="label"></label>
-      <div class="composer">
-        <input type="text" id="text" autofocus autocomplete="off" data-i18n-ph="ph">
+      <div class="composer glass">
+        <input type="text" id="text" autofocus autocomplete="off" data-i18n-ph="ph" aria-label="Message">
         <button id="mic" aria-label="Speak"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 15a3 3 0 0 0 3-3V6a3 3 0 0 0-6 0v6a3 3 0 0 0 3 3zm5-3a5 5 0 0 1-10 0H5a7 7 0 0 0 6 6.9V21h2v-2.1A7 7 0 0 0 19 12z"/></svg></button>
-        <button id="send" aria-label="Send"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
+        <button id="send" aria-label="Send"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 19V5M6 11l6-6 6 6"/></svg></button>
       </div>
       <div id="status" role="status" aria-live="polite"></div>
       <p class="disclaimer" data-i18n="disclaimer"></p>
@@ -212,14 +251,14 @@
 <script>
 // UI text in one language at a time (Arabic default). Switching also sets the speech-recognition language.
 const I18N = {
-  ar: { name: "رفيق", tagline: "الموروث والعلم البيطري", badge: "نموذج بحثي", kicker: "مساعد بحثي للممارسات البيطرية التقليدية", try: "أمثلة للبدء", newv: "زائر جديد", title: "اسأل عن ممارسة تقليدية، ورفيق يقارنها بالأدلة", sub: "اكتب عن علاج أو عادة تقليدية مع صقرك أو خيلك أو سلوقيك. رفيق يقارنها بالأعشاب والطب التقليدي والأدلة البيطرية.",
+  ar: { name: "رفيق", tagline: "الموروث والعلم البيطري", badge: "نموذج بحثي · الموروث والعلم البيطري", kicker: "مساعد بحثي للممارسات البيطرية التقليدية", try: "جرّب مثالاً", newv: "زائر جديد", title: "اسأل عن ممارسة تقليدية، ورفيق يقارنها بالأدلة", sub: "اكتب عن علاج أو عادة تقليدية مع صقرك أو خيلك أو سلوقيك. رفيق يقارنها بالأعشاب والطب التقليدي والأدلة البيطرية.",
     s1: "اكتب أو تكلّم", s2: "رفيق ينصحك", s3: "طبيب بيطري يراجع", s4: "يُضاف للمعرفة المعتمدة",
     falcon: "الصقور", horse: "الخيل", saluki: "السلوقي",
     q_falcon: "نعطي الصقر حرمل إذا مرض، زين؟", q_horse: "نكوي الخيل (الوسم) على الرجل إذا عرج", q_saluki: "زيت الزيتون زين لشعر السلوقي؟",
     label: "سؤالك", ph: "مثال: نعطي الصقر حرمل إذا مرض؟", idle: "اكتب سؤالك، أو اضغط زر الميكروفون وتكلّم",
     notes: "سجل الممارسات", notes_sub: "كل ممارسة يذكرها الزوار، وكيف صنّفها رفيق", c1: "يحتاج تصحيح", c2: "تستحق الدراسة", c3: "قد تضر", c4: "تفاصيل أكثر",
-    empty: "لا شيء بعد. ابدأ بسؤال.", urgent: "خطر فوري على الحيوان. راجع طبيباً بيطرياً الآن.", vetnote: "ملاحظة الطبيب: ", vetans: "رد الطبيب", kb: "جواب معتمد من الطبيب", sent: "أُحيلت إلى الطبيب", method: "آلية العمل", foot: "نموذج بحثي لعرض جامعي · رفيق", disclaimer: "نموذج عرض بحثي، وليس استشارة بيطرية. في الطوارئ راجع طبيباً بيطرياً فوراً." },
-  en: { name: "Rafeeq", tagline: "Heritage and veterinary science", badge: "Research prototype", kicker: "A research assistant for traditional animal-care practices", try: "Try an example", newv: "New visitor", title: "Ask about a traditional practice. Rafeeq weighs the evidence.", sub: "Tell us about a traditional remedy or practice for your falcon, horse or saluki. Rafeeq checks it against herbal, traditional and veterinary evidence.",
+    empty: "لا شيء بعد. ابدأ بسؤال.", urgent: "خطر فوري على الحيوان. راجع طبيباً بيطرياً الآن.", vetnote: "ملاحظة الطبيب: ", vetans: "رد الطبيب", kb: "جواب معتمد من الطبيب", sent: "أُحيلت إلى الطبيب", method: "كيف يعمل", foot: "نموذج بحثي لعرض جامعي · رفيق", disclaimer: "نموذج عرض بحثي، وليس استشارة بيطرية. في الطوارئ راجع طبيباً بيطرياً فوراً." },
+  en: { name: "Rafeeq", tagline: "Heritage and veterinary science", badge: "Research prototype · Heritage & vet science", kicker: "A research assistant for traditional animal-care practices", try: "Try an example", newv: "New visitor", title: "Ask about a traditional practice. Rafeeq weighs the evidence.", sub: "Tell us about a traditional remedy or practice for your falcon, horse or saluki. Rafeeq checks it against herbal, traditional and veterinary evidence.",
     s1: "Type or speak", s2: "Rafeeq advises", s3: "A vet reviews", s4: "Added to approved knowledge",
     falcon: "Falcons", horse: "Horses", saluki: "Salukis",
     q_falcon: "Is harmal good for a sick falcon?", q_horse: "We fire a horse's leg when it goes lame", q_saluki: "Is olive oil good for a saluki's coat?",
@@ -275,7 +314,6 @@ function applyLang(code) {
   const T = I18N[UI];
   document.documentElement.lang = UI; document.documentElement.dir = UI === "en" ? "ltr" : "rtl";
   document.querySelectorAll("[data-i18n]").forEach((el) => el.textContent = T[el.dataset.i18n]);
-  $("steps").dataset.label = T.method;
   document.querySelectorAll("[data-i18n-ph]").forEach((el) => el.placeholder = T[el.dataset.i18nPh]);
   document.querySelectorAll("#samples button").forEach((b) => b.dataset.q = T["q_" + b.dataset.k]);
   document.querySelectorAll(".seg button").forEach((b) => b.setAttribute("aria-pressed", String(b.dataset.lang === code)));
