@@ -52,7 +52,7 @@
 - `CLAUDE_MODEL` – الافتراضي `claude-opus-5-5` (الأذكى). لرد أسرع وأرخص: `claude-sonnet-5-5`.
 - `RAFEEQ_EFFORT` – `low` (الافتراضي، الأسرع للمحادثة الصوتية) أو `medium` / `high` لتحليل أعمق وأبطأ.
 - `PORT` – منفذ السيرفر (الافتراضي 3000).
-- `VET_PASSWORD` – كلمة مرور لوحة الطبيب (لازم تغيّرها).
+- `VET_PASSWORD` – رمز دخول لوحة الطبيب (تحطه في .env أو في Vercel، مب في الكود).
 - `HOST=0.0.0.0` – لو تبي الطبيب يفتح اللوحة من آيباد أو لابتوب ثاني على نفس الواي فاي: http://<IP جهازك>:3000/vet. صفحة الزوار بالميكروفون لازم تنفتح على نفس الجهاز (localhost) لأن المتصفح ما يسمح بالميكروفون على عناوين http ثانية.
 
 ## التكلفة التقريبية
@@ -63,7 +63,7 @@
 2. Add New → Project → اختر الريبو `rafeeq` → Import. لا تغيّر أي إعداد (Framework: Other).
 3. قبل Deploy افتح Environment Variables وأضف:
    - `ANTHROPIC_API_KEY` = مفتاحك من console.anthropic.com
-   - `VET_PASSWORD` = كلمة مرور لوحة الطبيب
+   - `VET_PASSWORD` = رمز دخول لوحة الطبيب اللي اخترته
 4. اضغط Deploy.
 5. بعد النشر: من صفحة المشروع افتح Storage → Create Database → **Upstash for Redis** (المجاني) → Connect to project. هذا يضيف `KV_REST_API_URL` و`KV_REST_API_TOKEN` تلقائياً.
 6. Deployments → آخر نشر → ⋯ → Redeploy عشان يقرأ متغيرات Redis.
