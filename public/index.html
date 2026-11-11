@@ -47,7 +47,7 @@
   .panel { background: var(--glass); border: 1px solid var(--line); border-radius: calc(var(--r) * 1.4); backdrop-filter: blur(14px); }
   .chat { display: flex; flex-direction: column; min-height: 70vh; overflow: hidden; }
 
-  .stage { display: flex; flex-direction: column; align-items: center; gap: .9rem; padding: 1.5rem 1rem 1rem; }
+  .stage { display: flex; flex-direction: column; align-items: center; gap: .9rem; padding: 2.4rem 1rem 1rem; }
   #mic {
     position: relative; width: clamp(8rem, 18vw, 13rem); height: clamp(8rem, 18vw, 13rem); border-radius: 50%; border: none; padding: 0;
     font-size: clamp(2.6rem, 5vw, 4rem); color: #fff;
@@ -323,7 +323,7 @@ function stopSpeaking() { if (synth) synth.cancel(); speakQueue = 0; }
 let streamDone = true;
 function onSpeechDone() {
   if (!streamDone) return;
-  setMic(""); setStatus("اضغط وتكلم · Tap & speak");
+  setMic(""); setStatus("جاهز لسؤالك التالي · Ready for your next question");
   if ($("handsfree").checked && !aborted) setTimeout(startListening, 350);
 }
 
@@ -407,7 +407,7 @@ function startListening() {
     if (interim) interim.remove();
     const text = (finalText || interim?.textContent || "").trim();
     if (text) sendToClaude(text);
-    else setStatus("اضغط وتكلم · Tap & speak");
+    else setStatus("جاهز لسؤالك التالي · Ready for your next question");
   };
   rec.start();
 }
