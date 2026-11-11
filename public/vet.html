@@ -43,7 +43,7 @@
 <body>
 <div id="login">
   <h2 style="margin:0">لوحة الطبيب البيطري</h2>
-  <input type="password" id="pw" placeholder="رمز الدخول">
+  <input type="password" id="pw" placeholder="رمز الدخول" autocomplete="off" autofocus>
   <button id="go" class="on">دخول</button>
   <div id="loginErr" class="urgent"></div>
 </div>
@@ -76,7 +76,9 @@ const CAT = {
   harmful_awareness: { ar: "ضارة / خاطئة للتوعية", color: "var(--harm)" },
   needs_more_info: { ar: "تحتاج معلومات أكثر", color: "var(--more)" },
 };
-let pw = sessionStorage.getItem("vetpw") || "";
+// /vet#CODE logs in directly (the hash never reaches the server or logs); handy for a booth tablet
+let pw = decodeURIComponent(location.hash.slice(1)) || sessionStorage.getItem("vetpw") || "";
+if (location.hash) history.replaceState(null, "", location.pathname);
 let tab = "pending", cases = [], kb = [], drafts = {}; const editing = new Set();
 try { $("vetName").value = localStorage.getItem("vetName") || ""; } catch {}
 $("vetName").onchange = () => { try { localStorage.setItem("vetName", $("vetName").value); } catch {} };
