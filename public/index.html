@@ -5,166 +5,143 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>رفيق | Rafeeq</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Reem+Kufi:wght@500;700&family=IBM+Plex+Sans+Arabic:wght@400;500;600&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&family=Noto+Naskh+Arabic:wght@600;700&family=IBM+Plex+Serif:wght@600&display=swap">
 <style>
   :root {
-    --bg: #0b0915; --bg2: #121025; --raise: #18142e; --raise2: #201a3a;
-    --sand: #e9c98b; --saffron: #f2a93b; --henna: #b23a2e; --palm: #3f8f6b; --cream: #f7eedc;
-    --muted: #a99f8f; --line: rgba(233,201,139,.14); --line2: rgba(233,201,139,.3);
-    --mis: #f2a93b; --study: #6fb7e9; --harm: #e65b4f; --more: #9c92ad; --ok: #5cc596;
-    --kufi: "Reem Kufi", "IBM Plex Sans Arabic", system-ui, sans-serif;
+    --bg: #f7f5f0; --paper: #ffffff; --ink: #1c2430; --ink2: #3d4757; --muted: #5f6877;
+    --line: #e2ddd2; --line2: #cfc8b9; --accent: #0f5b4a; --accent2: #0b4639; --accentbg: #e8f1ee; --sand: #b08a4f;
+    --mis: #8a5300; --study: #1d5f8a; --harm: #a3271c; --more: #5d6470; --ok: #0f6b4f;
+    --serif: "Noto Naskh Arabic", "IBM Plex Serif", Georgia, serif;
     --body: "IBM Plex Sans Arabic", system-ui, sans-serif;
-    --ease: cubic-bezier(.2,.8,.2,1);
   }
   html { font-size: clamp(15px, .5vw + 9.5px, 30px); } /* scales up on booth TVs */
   * { box-sizing: border-box; }
-  body { margin: 0; min-height: 100dvh; color: var(--cream); font: 1rem/1.7 var(--body); background: var(--bg); display: flex; flex-direction: column; }
-  body::before { content: ""; position: fixed; inset: 0; z-index: -1; pointer-events: none;
-    background:
-      radial-gradient(1px 1px at 14% 22%, #fff7 50%, transparent), radial-gradient(1px 1px at 81% 12%, #fff6 50%, transparent),
-      radial-gradient(1.5px 1.5px at 42% 8%, #fff8 50%, transparent), radial-gradient(1px 1px at 67% 31%, #fff4 50%, transparent),
-      radial-gradient(1px 1px at 27% 47%, #fff3 50%, transparent), radial-gradient(1px 1px at 92% 52%, #fff4 50%, transparent),
-      radial-gradient(48rem 26rem at 50% -6rem, rgba(242,169,59,.22), transparent 70%),
-      radial-gradient(40rem 30rem at 100% 100%, rgba(178,58,46,.12), transparent 70%); }
+  body { margin: 0; min-height: 100dvh; color: var(--ink); font: 1rem/1.7 var(--body); background: var(--bg); display: flex; flex-direction: column; }
   button, select, input { font: inherit; color: inherit; }
-  button { cursor: pointer; min-height: max(44px, 2.75rem); min-width: 44px; border-radius: .8rem; border: 1px solid var(--line2); background: transparent; padding: 0 1rem; transition: background .2s var(--ease), border-color .2s, transform .15s; }
-  button:hover { background: rgba(233,201,139,.08); border-color: var(--sand); } button:active { transform: scale(.97); }
-  :focus-visible { outline: 3px solid var(--saffron); outline-offset: 3px; }
+  button { cursor: pointer; min-height: max(44px, 2.75rem); min-width: 44px; border-radius: .5rem; border: 1px solid var(--line2); background: var(--paper); padding: 0 1rem; transition: background .15s, border-color .15s; }
+  button:hover { border-color: var(--accent); background: var(--accentbg); }
+  :focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; }
   [hidden] { display: none !important; }
-  .sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
-
-  /* Al Sadu weave band */
-  .sadu { height: .7rem; flex: none; background:
-      linear-gradient(135deg, var(--henna) 25%, transparent 25%) -.35rem 0/.7rem .7rem,
-      linear-gradient(225deg, var(--henna) 25%, transparent 25%) -.35rem 0/.7rem .7rem,
-      linear-gradient(315deg, var(--cream) 25%, transparent 25%) 0 0/.7rem .7rem,
-      linear-gradient(45deg, var(--cream) 25%, transparent 25%) 0 0/.7rem .7rem, #1b0f0c; }
 
   /* top bar */
-  .top { display: flex; align-items: center; justify-content: space-between; gap: .75rem; flex-wrap: wrap; padding: .8rem clamp(1rem, 3vw, 2.5rem); }
-  .brand { display: flex; align-items: center; gap: .65rem; font: 700 1.6rem/1 var(--kufi); color: var(--sand); }
-  .brand small { font: 400 .78rem var(--body); color: var(--muted); }
-  .eye { position: relative; border-radius: 50%; flex: none; aspect-ratio: 1;
-    background: radial-gradient(circle, #0b0806 0 var(--p, 30%), transparent calc(var(--p, 30%) + 1%)), repeating-conic-gradient(rgba(90,40,0,.3) 0 2deg, transparent 2deg 7deg), radial-gradient(circle, #ffd56b 0 26%, var(--saffron) 56%, #a8540f 78%, #2a1503 80%); }
-  .eye::after { content: ""; position: absolute; width: 18%; height: 18%; top: 22%; left: 25%; border-radius: 50%; background: radial-gradient(circle, #fff, #fff0 70%); }
-  .brand .eye { width: 2.4rem; box-shadow: 0 0 1.2rem rgba(242,169,59,.45); }
+  .top { display: flex; align-items: center; justify-content: space-between; gap: .75rem; flex-wrap: wrap; padding: .7rem clamp(1rem, 3vw, 2.5rem); background: var(--paper); border-bottom: 1px solid var(--line); }
+    .brand { display: flex; align-items: center; gap: .7rem; }
+  .mark { width: 2.5rem; height: 2.5rem; border-radius: .5rem; background: var(--accent); color: #fff; display: grid; place-items: center; font: 700 1.35rem/1 var(--serif); flex: none; }
+  .brand b { display: block; font: 700 1.2rem/1.2 var(--serif); }
+  .brand small { display: block; font-size: .75rem; color: var(--muted); line-height: 1.3; }
+  .badge { font-size: .72rem; font-weight: 600; color: var(--accent); border: 1px solid var(--accent); border-radius: .25rem; padding: .1rem .6rem; margin-inline-start: .3rem; white-space: nowrap; }
   .actions { display: flex; gap: .5rem; align-items: center; }
-  .seg { display: inline-flex; border: 1px solid var(--line2); border-radius: .8rem; overflow: hidden; }
-  .seg button { border: none; border-radius: 0; min-width: 3rem; font-weight: 600; }
-  .seg button[aria-pressed="true"] { background: var(--sand); color: #1b0f0c; }
-  #reset { background: var(--saffron); color: #1b0f0c; border: none; font-weight: 700; display: inline-flex; gap: .4rem; align-items: center; }
-  #gear { width: 2.75rem; padding: 0; display: grid; place-items: center; }
-  .staff { width: 100%; display: flex; flex-wrap: wrap; gap: .5rem; align-items: center; justify-content: flex-end; font-size: .85rem; color: var(--muted); border-top: 1px dashed var(--line2); padding-top: .6rem; }
-  .staff select, .staff a { color: var(--cream); background: var(--raise); border: 1px solid var(--line2); border-radius: .6rem; min-height: 2.75rem; padding: 0 .6rem; }
+  .seg { display: inline-flex; border: 1px solid var(--line2); border-radius: .5rem; overflow: hidden; }
+  .seg button { border: none; border-radius: 0; min-width: 3rem; font-size: .9rem; font-weight: 600; background: var(--paper); }
+  .seg button[aria-pressed="true"] { background: var(--ink); color: #fff; }
+  #reset { display: inline-flex; gap: .4rem; align-items: center; font-weight: 600; }
+  #gear { width: 2.75rem; padding: 0; display: grid; place-items: center; color: var(--muted); }
+  .staff { width: 100%; display: flex; flex-wrap: wrap; gap: .5rem; align-items: center; justify-content: flex-end; font-size: .85rem; color: var(--muted); border-top: 1px solid var(--line); padding-top: .6rem; }
+  .staff select, .staff a { color: var(--ink); background: var(--paper); border: 1px solid var(--line2); border-radius: .5rem; min-height: 2.75rem; padding: 0 .6rem; }
   .staff a { display: inline-grid; place-items: center; text-decoration: none; }
   .staff label { display: inline-flex; gap: .4rem; align-items: center; }
 
   /* layout */
-  .layout { flex: 1; width: 100%; max-width: 104rem; margin: 0 auto; display: grid; grid-template-columns: minmax(0, 1fr) 22rem; gap: clamp(1rem, 2.5vw, 2.5rem); padding: 0 clamp(1rem, 3vw, 2.5rem); }
-  .convo { display: flex; flex-direction: column; min-height: calc(100dvh - 6rem); max-width: 54rem; width: 100%; margin-inline: auto; }
+  .layout { flex: 1; width: 100%; max-width: 92rem; margin: 0 auto; display: grid; grid-template-columns: minmax(0, 1fr) 21rem; gap: clamp(1rem, 2.5vw, 2.5rem); padding: 0 clamp(1rem, 3vw, 2.5rem); }
+  .convo { display: flex; flex-direction: column; min-height: calc(100dvh - 7rem); max-width: 50rem; width: 100%; margin-inline: auto; }
 
   /* empty state */
-  .hero { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 2rem 0 1rem; gap: .9rem; }
-  .hero .eye { width: clamp(5.5rem, 10vw, 8rem); box-shadow: 0 0 0 .4rem rgba(233,201,139,.12), 0 0 4rem rgba(242,169,59,.45); animation: breathe 4s ease-in-out infinite; }
-  @keyframes breathe { 50% { --p: 34%; box-shadow: 0 0 0 .7rem rgba(233,201,139,.08), 0 0 5rem rgba(242,169,59,.6); } }
-  @property --p { syntax: "<percentage>"; inherits: true; initial-value: 30%; }
-  .hero h1 { margin: .4rem 0 0; font: 700 clamp(2.4rem, 5vw, 3.6rem)/1.1 var(--kufi); background: linear-gradient(180deg, var(--cream), var(--sand) 60%, var(--saffron)); -webkit-background-clip: text; background-clip: text; color: transparent; }
-  .hero p { margin: 0; color: var(--muted); max-width: 34rem; }
-  .steps { list-style: none; display: flex; flex-wrap: wrap; justify-content: center; gap: .4rem; padding: 0; margin: .3rem 0 .6rem; font-size: .82rem; color: var(--muted); }
-  .steps li { display: inline-flex; align-items: center; gap: .4rem; }
-  .steps li + li::before { content: ""; width: 1.4rem; border-top: 1px dashed var(--line2); }
-  .steps b { display: inline-grid; place-items: center; width: 1.5rem; height: 1.5rem; border-radius: 50%; background: var(--raise2); border: 1px solid var(--line2); color: var(--sand); font: 700 .8rem var(--kufi); }
-  .samples { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: .75rem; width: 100%; }
-  .samples button { display: grid; grid-template-columns: auto 1fr; grid-template-rows: auto auto; column-gap: .75rem; text-align: start; padding: .9rem; min-height: 5.5rem; background: var(--raise); border-color: var(--line); border-radius: 1.1rem; }
-  .samples button:hover { transform: translateY(-2px); border-color: var(--sand); background: var(--raise2); }
-  .samples i { grid-row: span 2; width: 2.8rem; height: 2.8rem; border-radius: .7rem; display: grid; place-items: center; font: 700 1.4rem var(--kufi); font-style: normal; color: var(--sand); background: var(--bg2); box-shadow: inset 0 0 0 1px var(--line2), inset 0 -.25rem 0 var(--henna); }
-  .samples b { font: 700 1.05rem var(--kufi); color: var(--sand); }
-  .samples span { font-size: .85rem; color: var(--cream); opacity: .85; unicode-bidi: plaintext; }
+  .hero { flex: 1; display: flex; flex-direction: column; justify-content: center; padding: 2.2rem 0 1rem; gap: .8rem; }
+  .kicker { font-size: .8rem; font-weight: 600; color: var(--accent); letter-spacing: .02em; }
+  .hero h1 { margin: 0; font: 700 clamp(1.9rem, 3.6vw, 2.7rem)/1.45 var(--serif); color: var(--ink); }
+  :lang(en) .hero h1, :lang(en) .notes h2, :lang(en) .brand b { font-family: "IBM Plex Serif", Georgia, serif; line-height: 1.25; }
+  .hero p { margin: 0; color: var(--ink2); max-width: 40rem; }
+  .steps { list-style: none; display: flex; flex-wrap: wrap; gap: .2rem 1.2rem; padding: 0; margin: .2rem 0 .4rem; font-size: .82rem; color: var(--muted); }
+  .steps::before { content: attr(data-label); font-weight: 600; color: var(--ink2); width: 100%; }
+  .steps li { display: flex; align-items: center; gap: .45rem; }
+  .steps b { flex: none; display: inline-grid; place-items: center; width: 1.4rem; height: 1.4rem; border-radius: 50%; background: var(--accentbg); color: var(--accent); font-size: .8rem; }
+  .samples-h { margin: .6rem 0 0; font-size: .85rem; font-weight: 600; color: var(--muted); }
+  .samples { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: .6rem; width: 100%; }
+  .samples button { display: flex; flex-direction: column; align-items: flex-start; gap: .15rem; text-align: start; padding: .8rem .95rem; min-height: 5rem; border-color: var(--line); border-radius: .6rem; }
+  .samples b { font-size: .78rem; font-weight: 600; color: var(--accent); }
+  .samples span { font-size: .95rem; color: var(--ink); unicode-bidi: plaintext; }
   .convo:has(#log .msg) .hero { display: none; }
 
   /* conversation */
-  #log { display: flex; flex-direction: column; gap: 1.1rem; padding: 1.5rem 0 1rem; }
+  #log { display: flex; flex-direction: column; gap: 1rem; padding: 1.5rem 0 1rem; }
   .convo:has(#log .msg) #log { flex: 1; }
-  .msg { max-width: 88%; white-space: pre-wrap; unicode-bidi: plaintext; animation: rise .35s var(--ease); }
-  @keyframes rise { from { opacity: 0; transform: translateY(.4rem); } }
-  .msg.user { align-self: flex-start; background: rgba(242,169,59,.14); border: 1px solid rgba(242,169,59,.28); padding: .65rem 1rem; border-radius: 1.1rem 1.1rem 1.1rem .3rem; }
-  .msg.assistant, .msg.vet { align-self: flex-end; position: relative; padding-inline-end: 2.6rem; font-size: 1.05rem; }
-  .msg.assistant::after, .msg.vet::after { content: ""; position: absolute; inset-inline-end: 0; top: .2rem; width: 1.8rem; height: 1.8rem; border-radius: 50%;
-    background: radial-gradient(circle, #0b0806 0 30%, transparent 31%), radial-gradient(circle, #ffd56b 0 26%, var(--saffron) 56%, #a8540f 78%, #2a1503 80%); }
-  .msg.vet { background: rgba(63,143,107,.14); border: 1px solid rgba(92,197,150,.4); border-radius: 1rem; padding: .7rem 2.8rem .7rem 1rem; }
-  .msg.vet::after { background: var(--palm); box-shadow: inset 0 0 0 .45rem var(--bg); }
-  .msg.vet::before { content: "الطبيب البيطري · Vet"; display: block; font: 700 .75rem var(--kufi); color: var(--ok); }
-  .msg.interim { opacity: .55; font-style: italic; }
+  .msg { max-width: 88%; white-space: pre-wrap; unicode-bidi: plaintext; }
+  .msg.user { align-self: flex-start; background: var(--accentbg); color: var(--ink); border: 1px solid #cfe0da; padding: .6rem 1rem; border-radius: .9rem; border-start-start-radius: .25rem; }
+  .msg.assistant, .msg.vet { align-self: flex-end; background: var(--paper); border: 1px solid var(--line); padding: .75rem 1rem; border-radius: .9rem; border-start-end-radius: .25rem; font-size: 1.03rem; }
+  .msg.assistant::before, .msg.vet::before { display: block; font-size: .72rem; font-weight: 700; margin-bottom: .2rem; }
+  .msg.assistant::before { content: "رفيق"; color: var(--accent); } :lang(en) .msg.assistant::before { content: "Rafeeq"; }
+  .msg.assistant { border-inline-start: 3px solid var(--accent); border-radius: .4rem; }
+  .msg.vet { border-color: var(--ok); background: var(--accentbg); }
+  .msg.vet::before { content: "الطبيب البيطري"; color: var(--ok); } :lang(en) .msg.vet::before { content: "Veterinarian"; }
+  .msg.interim { opacity: .6; font-style: italic; }
   .msg.error { color: var(--harm); }
 
   /* composer dock */
-  .dock { position: sticky; bottom: 0; padding: .8rem 0 1rem; background: linear-gradient(to top, var(--bg) 70%, transparent); }
-  .dock label { display: block; font: 600 .8rem var(--body); color: var(--muted); margin: 0 .4rem .35rem; }
-  .composer { display: flex; align-items: center; gap: .5rem; padding: .45rem; border-radius: 1.4rem; background: var(--raise); border: 1.5px solid var(--line2); box-shadow: 0 .8rem 2.5rem rgba(0,0,0,.35); transition: border-color .2s, box-shadow .2s; }
-  .composer:focus-within { border-color: var(--sand); box-shadow: 0 0 0 .3rem rgba(242,169,59,.18), 0 .8rem 2.5rem rgba(0,0,0,.35); }
-  #text { flex: 1; min-width: 0; border: none; background: transparent; font-size: 1.15rem; min-height: 3.4rem; padding: 0 .8rem; }
+  .dock { position: sticky; bottom: 0; padding: .8rem 0 1rem; background: linear-gradient(to top, var(--bg) 75%, transparent); }
+  .dock label { display: block; font-size: .85rem; font-weight: 600; color: var(--ink2); margin: 0 .2rem .35rem; }
+  .composer { display: flex; align-items: center; gap: .5rem; padding: .4rem; border-radius: .8rem; background: var(--paper); border: 1.5px solid var(--line2); box-shadow: 0 .3rem 1.2rem rgba(28,36,48,.07); }
+  .composer:focus-within { border-color: var(--accent); box-shadow: 0 0 0 .25rem rgba(15,91,74,.15); }
+  #text { flex: 1; min-width: 0; border: none; background: transparent; font-size: 1.1rem; min-height: 3.2rem; padding: 0 .7rem; }
   #text:focus-visible { outline: none; }
-  #text::placeholder { color: #8d8475; }
-  #mic { width: 3.4rem; height: 3.4rem; padding: 0; border-radius: 50%; border: .18rem solid #2a1503; position: relative; flex: none;
-    background: radial-gradient(circle, #0b0806 0 var(--p, 32%), transparent calc(var(--p, 32%) + 1%)), repeating-conic-gradient(rgba(90,40,0,.3) 0 2deg, transparent 2deg 7deg), radial-gradient(circle, #ffd56b 0 26%, var(--saffron) 56%, #a8540f 78%, #2a1503 80%);
-    transition: --p .35s var(--ease), box-shadow .3s; }
-  #mic svg { position: absolute; inset: 0; margin: auto; width: 34%; height: 34%; fill: var(--sand); }
-  #mic:hover { box-shadow: 0 0 1.4rem rgba(242,169,59,.6); }
-  #mic.listening { --p: 40%; box-shadow: 0 0 0 .3rem var(--palm), 0 0 2rem rgba(92,197,150,.7); animation: pulse 1.4s ease-in-out infinite; }
-  #mic.thinking { animation: spin 1.8s linear infinite; }
-  #mic.speaking { --p: 24%; box-shadow: 0 0 0 .3rem var(--saffron), 0 0 2rem rgba(242,169,59,.7); }
-  @keyframes pulse { 50% { box-shadow: 0 0 0 .6rem rgba(63,143,107,.35), 0 0 2.6rem rgba(92,197,150,.8); } }
-  @keyframes spin { to { transform: rotate(360deg); } }
-  #send { height: 3.4rem; width: 3.4rem; padding: 0; border: none; border-radius: 1rem; background: var(--saffron); color: #1b0f0c; display: grid; place-items: center; flex: none; }
-  #send svg { width: 1.4rem; height: 1.4rem; }
+  #text::placeholder { color: #8a909a; }
+  #mic { width: 3.2rem; height: 3.2rem; padding: 0; border-radius: .6rem; display: grid; place-items: center; color: var(--ink2); flex: none; }
+  #mic svg { width: 1.35rem; height: 1.35rem; fill: currentColor; }
+  #mic.listening { background: var(--harm); border-color: var(--harm); color: #fff; animation: pulse 1.4s ease-in-out infinite; }
+  #mic.thinking { color: var(--accent); border-color: var(--accent); }
+  #mic.speaking { background: var(--accent); border-color: var(--accent); color: #fff; }
+  @keyframes pulse { 50% { box-shadow: 0 0 0 .4rem rgba(163,39,28,.18); } }
+  #send { height: 3.2rem; width: 3.2rem; padding: 0; border: none; border-radius: .6rem; background: var(--accent); color: #fff; display: grid; place-items: center; flex: none; }
+  #send:hover { background: var(--accent2); }
+  #send svg { width: 1.3rem; height: 1.3rem; }
   [dir="rtl"] #send svg { transform: scaleX(-1); }
-  #status { min-height: 1.4em; font-size: .82rem; color: var(--muted); text-align: center; margin-top: .45rem; }
+  .disclaimer { margin: .5rem 0 0; font-size: .82rem; color: var(--ink2); border-inline-start: 3px solid var(--sand); padding-inline-start: .6rem; }
+  #status { min-height: 1.4em; font-size: .82rem; color: var(--muted); text-align: center; margin-top: .4rem; }
   @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation: none !important; transition: none !important; } }
 
-  /* field notes rail */
-  .notes { position: sticky; top: 1rem; align-self: start; margin-top: 1rem; background: var(--bg2); border: 1px solid var(--line); border-radius: 1.3rem; overflow: hidden; }
-  .notes h2 { margin: 0; padding: 1rem 1.1rem .2rem; font: 700 1.2rem var(--kufi); color: var(--sand); }
-  .notes > p { margin: 0 1.1rem .7rem; font-size: .8rem; color: var(--muted); }
-  .legend { display: flex; flex-wrap: wrap; gap: .3rem .9rem; margin: 0 1.1rem .9rem; font-size: .75rem; color: var(--muted); }
-  .dot { display: inline-block; width: .55rem; height: .55rem; transform: rotate(45deg); margin-inline-end: .4rem; }
-  #records { padding: 0 1.1rem 1rem; max-height: 70vh; overflow-y: auto; }
-  .card { position: relative; background: var(--raise); border-radius: .9rem; padding: .75rem .85rem; margin-bottom: .6rem; border-inline-start: .28rem solid var(--more); animation: rise .35s var(--ease); }
-  .card h3 { margin: 0; font: 700 1rem var(--kufi); unicode-bidi: plaintext; }
+  /* practice log rail */
+  .notes { position: sticky; top: 1rem; align-self: start; margin-top: 1.5rem; background: var(--paper); border: 1px solid var(--line); border-radius: .7rem; overflow: hidden; }
+  .notes h2 { margin: 0; padding: .9rem 1rem .1rem; font: 700 1.05rem var(--serif); }
+  .notes > p { margin: 0 1rem .6rem; font-size: .78rem; color: var(--muted); }
+  .legend { display: grid; grid-template-columns: 1fr 1fr; gap: .25rem .8rem; margin: 0 1rem .8rem; padding-bottom: .7rem; border-bottom: 1px solid var(--line); font-size: .75rem; color: var(--ink2); }
+  .dot { display: inline-block; width: .6rem; height: .6rem; border-radius: 2px; margin-inline-end: .4rem; vertical-align: -.05rem; }
+  #records { padding: 0 1rem 1rem; max-height: 70vh; overflow-y: auto; }
+  .card { background: var(--paper); border: 1px solid var(--line); border-radius: .5rem; padding: .7rem .8rem; margin-bottom: .55rem; border-inline-start: .25rem solid var(--more); }
+  .card h3 { margin: 0; font-size: .95rem; font-weight: 700; unicode-bidi: plaintext; }
   .card .meta { color: var(--muted); font-size: .72rem; }
-  .card p { margin: .35rem 0 0; color: var(--muted); font-size: .8rem; unicode-bidi: plaintext; direction: ltr; text-align: left; }
+  .card p { margin: .35rem 0 0; color: var(--ink2); font-size: .8rem; unicode-bidi: plaintext; text-align: start; }
   .card p:empty { display: none; }
-  .tag { display: inline-block; margin-top: .35rem; padding: .1rem .55rem; border-radius: .3rem; font-size: .72rem; font-weight: 700; color: #1b0f0c; }
+  .tag { display: inline-block; margin-top: .35rem; padding: .05rem .5rem; border-radius: .25rem; font-size: .72rem; font-weight: 600; color: #fff; }
   .urgent { color: var(--harm); font-weight: 700; font-size: .82rem; margin-top: .3rem; }
   .review { display: flex; flex-wrap: wrap; gap: .4rem; margin-top: .45rem; font-size: .82rem; }
-  .approved, .kb { color: var(--ok); font-weight: 700; }
-  .waiting { color: var(--saffron); font-weight: 700; }
-  .urgent::before, .waiting::before, .approved::before, .kb::before { content: ""; display: inline-block; width: .5rem; height: .5rem; margin-inline-end: .45rem; transform: rotate(45deg); background: currentColor; vertical-align: middle; }
-  .vetans { width: 100%; padding: .55rem; border-radius: .6rem; background: rgba(63,143,107,.14); unicode-bidi: plaintext; }
-  .empty { color: var(--muted); font-size: .85rem; padding: .4rem 0 .6rem; }
+  .approved, .kb { color: var(--ok); font-weight: 600; }
+  .waiting { color: var(--mis); font-weight: 600; }
+  .urgent::before, .waiting::before, .approved::before, .kb::before { content: ""; display: inline-block; width: .45rem; height: .45rem; margin-inline-end: .4rem; border-radius: 50%; background: currentColor; vertical-align: middle; }
+  .vetans { width: 100%; padding: .5rem .6rem; border-radius: .4rem; background: var(--accentbg); unicode-bidi: plaintext; }
+  .empty { color: var(--muted); font-size: .85rem; padding: .3rem 0 .5rem; }
 
-  footer { text-align: center; color: #7f7768; font-size: .72rem; padding: .3rem 1rem 1rem; }
+  @media (min-width: 1600px) { html { font-size: clamp(20px, 1.05vw, 30px); } .layout { max-width: 110rem; } }
+  footer { text-align: center; color: var(--muted); font-size: .75rem; padding: .7rem 1rem 1rem; border-top: 1px solid var(--line); background: var(--paper); }
 
   @media (max-width: 1100px) {
     .layout { grid-template-columns: minmax(0, 1fr); }
-    .notes { position: static; margin: 0 auto 1rem; width: 100%; max-width: 54rem; }
+    .notes { position: static; margin: 0 auto 1rem; width: 100%; max-width: 50rem; }
     .convo { min-height: auto; }
-    .hero { padding-top: 1rem; }
+    .notes { order: -1; margin-top: 1rem; } .notes:has(.empty) { display: none; } #records { max-height: 30vh; }
   }
   @media (max-width: 640px) {
     .samples { grid-template-columns: minmax(0, 1fr); } .samples button { min-height: auto; }
-    .brand small, .steps li + li::before { display: none; }
+    .brand small, .badge { display: none; }
     #reset span { display: none; }
   }
 </style>
 </head>
 <body>
-<div class="sadu" aria-hidden="true"></div>
 <header class="top">
-  <div class="brand"><div class="eye" aria-hidden="true"></div>رفيق <small data-i18n="tagline"></small></div>
+  <div class="brand"><div class="mark" aria-hidden="true">ر</div><div><b><span data-i18n="name"></span> <span class="badge" data-i18n="badge"></span></b><small data-i18n="tagline"></small></div></div>
   <div class="actions">
     <div class="seg" role="group" aria-label="Language">
-      <button type="button" data-lang="ar-AE" aria-pressed="true">ع</button>
-      <button type="button" data-lang="en-US" aria-pressed="false">EN</button>
+      <button type="button" data-lang="ar-AE" aria-pressed="true">العربية</button>
+      <button type="button" data-lang="en-US" aria-pressed="false">English</button>
     </div>
     <select id="lang" hidden><option value="ar-AE">ar</option><option value="en-US">en</option></select>
     <button id="reset"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg><span data-i18n="newv"></span></button>
@@ -189,19 +166,20 @@
 <main class="layout">
   <section class="convo">
     <div class="hero">
-      <div class="eye" aria-hidden="true"></div>
+      <div class="kicker" data-i18n="kicker"></div>
       <h1 data-i18n="title"></h1>
       <p data-i18n="sub"></p>
-      <ol class="steps">
+      <ol class="steps" id="steps">
         <li><b>1</b><span data-i18n="s1"></span></li>
         <li><b>2</b><span data-i18n="s2"></span></li>
         <li><b>3</b><span data-i18n="s3"></span></li>
         <li><b>4</b><span data-i18n="s4"></span></li>
       </ol>
+      <p class="samples-h" data-i18n="try"></p>
       <div class="samples" id="samples">
-        <button data-k="falcon"><i>ص</i><b data-i18n="falcon"></b><span data-i18n="q_falcon"></span></button>
-        <button data-k="horse"><i>خ</i><b data-i18n="horse"></b><span data-i18n="q_horse"></span></button>
-        <button data-k="saluki"><i>س</i><b data-i18n="saluki"></b><span data-i18n="q_saluki"></span></button>
+        <button data-k="falcon"><b data-i18n="falcon"></b><span data-i18n="q_falcon"></span></button>
+        <button data-k="horse"><b data-i18n="horse"></b><span data-i18n="q_horse"></span></button>
+        <button data-k="saluki"><b data-i18n="saluki"></b><span data-i18n="q_saluki"></span></button>
       </div>
     </div>
     <div id="log" aria-live="polite"></div>
@@ -213,6 +191,7 @@
         <button id="send" aria-label="Send"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
       </div>
       <div id="status" role="status" aria-live="polite"></div>
+      <p class="disclaimer" data-i18n="disclaimer"></p>
     </div>
   </section>
 
@@ -228,25 +207,25 @@
     <div id="records"><div class="empty" data-i18n="empty"></div></div>
   </aside>
 </main>
-<footer data-i18n="disclaimer"></footer>
+<footer data-i18n="foot"></footer>
 
 <script>
 // UI text in one language at a time (Arabic default). Switching also sets the speech-recognition language.
 const I18N = {
-  ar: { tagline: "الموروث يلتقي العلم البيطري", newv: "زائر جديد", title: "اسأل رفيق", sub: "اكتب عن علاج أو عادة تقليدية مع صقرك أو خيلك أو سلوقيك. رفيق يقارنها بالأعشاب والطب التقليدي والأدلة البيطرية.",
-    s1: "اكتب أو تكلّم", s2: "رفيق ينصحك", s3: "الطبيب يعتمد", s4: "رفيق يتعلّم",
+  ar: { name: "رفيق", tagline: "الموروث والعلم البيطري", badge: "نموذج بحثي", kicker: "مساعد بحثي للممارسات البيطرية التقليدية", try: "أمثلة للبدء", newv: "زائر جديد", title: "اسأل عن ممارسة تقليدية، ورفيق يقارنها بالأدلة", sub: "اكتب عن علاج أو عادة تقليدية مع صقرك أو خيلك أو سلوقيك. رفيق يقارنها بالأعشاب والطب التقليدي والأدلة البيطرية.",
+    s1: "اكتب أو تكلّم", s2: "رفيق ينصحك", s3: "طبيب بيطري يراجع", s4: "يُضاف للمعرفة المعتمدة",
     falcon: "الصقور", horse: "الخيل", saluki: "السلوقي",
     q_falcon: "نعطي الصقر حرمل إذا مرض، زين؟", q_horse: "نكوي الخيل (الوسم) على الرجل إذا عرج", q_saluki: "زيت الزيتون زين لشعر السلوقي؟",
-    label: "سؤالك", ph: "مثال: نعطي الصقر حرمل إذا مرض؟", idle: "اكتب سؤالك، أو اضغط عين الصقر وتكلّم",
+    label: "سؤالك", ph: "مثال: نعطي الصقر حرمل إذا مرض؟", idle: "اكتب سؤالك، أو اضغط زر الميكروفون وتكلّم",
     notes: "سجل الممارسات", notes_sub: "كل ممارسة يذكرها الزوار، وكيف صنّفها رفيق", c1: "يحتاج تصحيح", c2: "تستحق الدراسة", c3: "قد تضر", c4: "تفاصيل أكثر",
-    empty: "لا شيء بعد. ابدأ بسؤال.", disclaimer: "نموذج عرض بحثي، وليس استشارة بيطرية. في الطوارئ راجع طبيباً بيطرياً فوراً." },
-  en: { tagline: "Heritage meets veterinary science", newv: "New visitor", title: "Ask Rafeeq", sub: "Tell us about a traditional remedy or practice for your falcon, horse or saluki. Rafeeq checks it against herbal, traditional and veterinary evidence.",
-    s1: "Type or speak", s2: "Rafeeq advises", s3: "A vet confirms", s4: "Rafeeq learns",
+    empty: "لا شيء بعد. ابدأ بسؤال.", urgent: "خطر فوري على الحيوان. راجع طبيباً بيطرياً الآن.", vetnote: "ملاحظة الطبيب: ", vetans: "رد الطبيب", kb: "جواب معتمد من الطبيب", sent: "أُحيلت إلى الطبيب", method: "آلية العمل", foot: "نموذج بحثي لعرض جامعي · رفيق", disclaimer: "نموذج عرض بحثي، وليس استشارة بيطرية. في الطوارئ راجع طبيباً بيطرياً فوراً." },
+  en: { name: "Rafeeq", tagline: "Heritage and veterinary science", badge: "Research prototype", kicker: "A research assistant for traditional animal-care practices", try: "Try an example", newv: "New visitor", title: "Ask about a traditional practice. Rafeeq weighs the evidence.", sub: "Tell us about a traditional remedy or practice for your falcon, horse or saluki. Rafeeq checks it against herbal, traditional and veterinary evidence.",
+    s1: "Type or speak", s2: "Rafeeq advises", s3: "A vet reviews", s4: "Added to approved knowledge",
     falcon: "Falcons", horse: "Horses", saluki: "Salukis",
     q_falcon: "Is harmal good for a sick falcon?", q_horse: "We fire a horse's leg when it goes lame", q_saluki: "Is olive oil good for a saluki's coat?",
-    label: "Your question", ph: "e.g. Is harmal good for a sick falcon?", idle: "Type your question, or tap the falcon's eye to speak",
+    label: "Your question", ph: "e.g. Is harmal good for a sick falcon?", idle: "Type your question, or tap the microphone to speak",
     notes: "Practice log", notes_sub: "Every practice visitors mention, and how Rafeeq sorted it", c1: "Needs correction", c2: "Worth studying", c3: "May harm", c4: "Needs detail",
-    empty: "Nothing yet. Start with a question.", disclaimer: "Research demo, not a veterinary consultation. In an emergency, see a vet now." },
+    empty: "Nothing yet. Start with a question.", urgent: "Urgent welfare risk. See a vet now.", vetnote: "Vet note: ", vetans: "Vet answer", kb: "Vet-approved answer", sent: "Referred to the vet", method: "How it works", foot: "Research prototype for a university showcase · Rafeeq", disclaimer: "Research demo, not a veterinary consultation. In an emergency, see a vet now." },
 };
 const STATUS_EN = { "أسمعك… / Listening…": "Listening…", "يفكر…": "Thinking…", "يتكلم… اضغط للمقاطعة": "Speaking… tap to interrupt", "تم الإيقاف. اضغط وتكلم": "Stopped.",
   "اسمح للمتصفح باستخدام الميكروفون.": "Allow microphone access in your browser.", "المتصفح لا يدعم التعرف على الكلام. استخدم Chrome أو Edge، أو اكتب.": "This browser can't do speech. Use Chrome or Edge, or type." };
@@ -296,6 +275,7 @@ function applyLang(code) {
   const T = I18N[UI];
   document.documentElement.lang = UI; document.documentElement.dir = UI === "en" ? "ltr" : "rtl";
   document.querySelectorAll("[data-i18n]").forEach((el) => el.textContent = T[el.dataset.i18n]);
+  $("steps").dataset.label = T.method;
   document.querySelectorAll("[data-i18n-ph]").forEach((el) => el.placeholder = T[el.dataset.i18nPh]);
   document.querySelectorAll("#samples button").forEach((b) => b.dataset.q = T["q_" + b.dataset.k]);
   document.querySelectorAll(".seg button").forEach((b) => b.setAttribute("aria-pressed", String(b.dataset.lang === code)));
@@ -320,26 +300,26 @@ function renderRecords() {
       <h3></h3>
       <div class="meta"></div>
       <span class="tag" style="background:${c.color}"></span>
-      ${r.urgent_welfare_flag ? '<div class="urgent">خطر فوري على الحيوان · Urgent: see a vet now</div>' : ""}
+      ${r.urgent_welfare_flag ? `<div class="urgent">${I18N[UI].urgent}</div>` : ""}
       <p class="rat"></p><p class="note"></p>
       <div class="review"></div>`;
     el.querySelector("h3").textContent = `${r.practice_name || ""} ${r.practice_name_en ? "· " + r.practice_name_en : ""}`;
     el.querySelector(".meta").textContent = [r.domain, r.species, r.practice_type, r.region?.emirate].filter(Boolean).join(" · ");
     el.querySelector(".tag").textContent = c.ar;
     el.querySelector(".rat").textContent = r.rationale || "";
-    el.querySelector(".note").textContent = r.vet_note ? "Vet note: " + r.vet_note : "";
+    el.querySelector(".note").textContent = r.vet_note ? I18N[UI].vetnote + r.vet_note : "";
     const rv = el.querySelector(".review");
     const cs = cases[r.practice_id];
     if (cs?.status === "answered") {
       const fc = CAT[cs.vet.final_category] || c;
       rv.innerHTML = `<div class="approved"></div><div class="vetans"></div>`;
-      rv.querySelector(".approved").textContent = `رد الطبيب · Vet answer (${fc.ar})`;
+      rv.querySelector(".approved").textContent = `${I18N[UI].vetans} (${fc.ar})`;
       rv.querySelector(".vetans").textContent = cs.vet.vet_answer;
     } else if (cs?.status === "auto") {
-      rv.innerHTML = `<div class="kb">جواب معتمد من الطبيب · Vet-approved answer</div>`;
+      rv.innerHTML = `<div class="kb">${I18N[UI].kb}</div>`;
     } else if (cs?.status === "pending") {
       rv.innerHTML = `<div class="waiting"></div>`;
-      rv.querySelector(".waiting").textContent = `أُرسلت للطبيب · Sent to the vet · #${cs.code}`;
+      rv.querySelector(".waiting").textContent = `${I18N[UI].sent} · #${cs.code}`;
     }
     box.appendChild(el);
   }
