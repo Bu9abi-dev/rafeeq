@@ -4,133 +4,169 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>رفيق | Rafeeq</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Reem+Kufi:wght@500;700&family=IBM+Plex+Sans+Arabic:wght@400;600&display=swap">
 <style>
   :root {
-    --bg: #070b14; --bg2: #0d1424; --glass: rgba(255,255,255,.06); --glass2: rgba(255,255,255,.1);
-    --line: rgba(255,255,255,.12); --ink: #eef3ff; --muted: #9aa8c7;
-    --a1: #3ee6c1; --a2: #7c5cff; --a3: #ffb547;
-    --mis: #ffb547; --study: #4ea8ff; --harm: #ff5d6c; --more: #8b97b5; --ok: #3ee6c1;
-    --me: rgba(124,92,255,.22); --ai: rgba(255,255,255,.07);
-    --r: 1.1rem;
+    --night: #0c0a17; --night2: #15112a; --dusk: #241a3d;
+    --sand: #e9c98b; --saffron: #f2a93b; --henna: #b23a2e; --palm: #3f8f6b; --cream: #f7eedc;
+    --muted: #b9ad98; --line: rgba(233,201,139,.18); --glass: rgba(21,17,42,.72);
+    --mis: #f2a93b; --study: #6fb7e9; --harm: #e0564a; --more: #9c92ad; --ok: #5cc596;
+    --kufi: "Reem Kufi", "IBM Plex Sans Arabic", system-ui, sans-serif;
   }
-  html { font-size: clamp(15px, 0.55vw + 9px, 30px); } /* scales up on TV/booth screens */
+  html { font-size: clamp(15px, 0.55vw + 9px, 30px); } /* grows on TV/booth screens */
   * { box-sizing: border-box; }
   body {
-    margin: 0; min-height: 100vh; color: var(--ink); font: 1rem/1.6 system-ui, "Segoe UI", Tahoma, sans-serif;
-    background: radial-gradient(60rem 40rem at 85% -10%, rgba(124,92,255,.35), transparent 60%),
-                radial-gradient(50rem 35rem at 0% 110%, rgba(62,230,193,.22), transparent 60%), var(--bg);
+    margin: 0; min-height: 100vh; color: var(--cream); font: 1rem/1.65 "IBM Plex Sans Arabic", system-ui, sans-serif;
+    background:
+      radial-gradient(1px 1px at 12% 18%, #fff8 50%, transparent), radial-gradient(1px 1px at 72% 9%, #fff6 50%, transparent),
+      radial-gradient(1.5px 1.5px at 38% 28%, #fff7 50%, transparent), radial-gradient(1px 1px at 88% 34%, #fff5 50%, transparent),
+      radial-gradient(1px 1px at 55% 14%, #fff6 50%, transparent), radial-gradient(1px 1px at 22% 40%, #fff4 50%, transparent),
+      radial-gradient(60rem 30rem at 50% -8%, rgba(242,169,59,.16), transparent 70%),
+      linear-gradient(180deg, var(--night) 0%, var(--night2) 55%, var(--dusk) 100%);
+    background-attachment: fixed;
   }
-  button, select, input { font: inherit; color: var(--ink); background: var(--glass); border: 1px solid var(--line); border-radius: 999px; padding: .55rem 1rem; min-height: 2.75rem; }
-  button { cursor: pointer; transition: transform .15s, background .2s; }
-  button:hover { background: var(--glass2); } button:active { transform: scale(.97); }
-  button:focus-visible, input:focus-visible, select:focus-visible { outline: 3px solid var(--a1); outline-offset: 2px; }
-  select option { background: var(--bg2); }
-
-  header { display: flex; flex-wrap: wrap; gap: .75rem; align-items: center; justify-content: space-between; padding: 1rem clamp(1rem, 3vw, 3rem); }
-  .brand { display: flex; align-items: center; gap: .7rem; }
-  .logo { width: 2.6rem; height: 2.6rem; border-radius: 30%; background: conic-gradient(from 200deg, var(--a1), var(--a2), var(--a3), var(--a1)); box-shadow: 0 0 1.5rem rgba(124,92,255,.6); }
-  header h1 { margin: 0; font-size: 1.5rem; line-height: 1.1; }
-  header h1 small { display: block; font-size: .75rem; font-weight: 400; color: var(--muted); }
-  .controls { display: flex; flex-wrap: wrap; gap: .5rem; align-items: center; font-size: .9rem; }
-  .controls label { display: flex; align-items: center; gap: .4rem; color: var(--muted); }
-  button.big { background: linear-gradient(135deg, var(--a1), var(--a2)); color: #061018; border: none; font-weight: 700; }
-  .staff { width: 100%; justify-content: flex-end; padding-top: .5rem; border-top: 1px dashed var(--line); }
-  .staff a { color: var(--muted); }
+  .dunes { position: fixed; inset: auto 0 0 0; height: 32vh; z-index: -1; pointer-events: none; }
+  button, select, input { font: inherit; color: var(--cream); background: rgba(255,255,255,.05); border: 1px solid var(--line); border-radius: .8rem; padding: .55rem 1rem; min-height: 2.9rem; }
+  button { cursor: pointer; transition: transform .15s, border-color .2s, background .2s; }
+  button:hover { border-color: var(--sand); background: rgba(233,201,139,.08); } button:active { transform: scale(.97); }
+  :focus-visible { outline: 3px solid var(--saffron); outline-offset: 3px; }
+  select option { background: var(--night2); }
   [hidden] { display: none !important; }
 
-  .how { list-style: none; display: grid; grid-template-columns: repeat(4, 1fr); gap: .75rem; margin: 0 auto; padding: 0 clamp(1rem, 3vw, 3rem); max-width: 110rem; counter-reset: s; }
-  .how li { counter-increment: s; background: var(--glass); border: 1px solid var(--line); border-radius: var(--r); padding: .7rem .9rem; font-size: .85rem; color: var(--muted); display: flex; gap: .6rem; align-items: center; }
-  .how li::before { content: counter(s); flex: none; width: 1.8rem; height: 1.8rem; border-radius: 50%; display: grid; place-items: center; font-weight: 700; color: #061018; background: linear-gradient(135deg, var(--a1), var(--a2)); }
-  .how b { color: var(--ink); display: block; font-size: .95rem; }
+  /* Al Sadu weave band */
+  .sadu { height: .9rem; background:
+      linear-gradient(135deg, var(--henna) 25%, transparent 25%) -.45rem 0/.9rem .9rem,
+      linear-gradient(225deg, var(--henna) 25%, transparent 25%) -.45rem 0/.9rem .9rem,
+      linear-gradient(315deg, var(--cream) 25%, transparent 25%) 0 0/.9rem .9rem,
+      linear-gradient(45deg, var(--cream) 25%, transparent 25%) 0 0/.9rem .9rem, #1b0f0c;
+    opacity: .85; }
+  .sadu.thin { height: .45rem; background-size: .45rem .45rem; opacity: .6; }
 
-  main { display: grid; grid-template-columns: minmax(0, 1.6fr) minmax(18rem, 1fr); gap: 1.25rem; padding: 1.25rem clamp(1rem, 3vw, 3rem); max-width: 110rem; margin: 0 auto; }
-  .panel { background: var(--glass); border: 1px solid var(--line); border-radius: calc(var(--r) * 1.4); backdrop-filter: blur(14px); }
-  .chat { display: flex; flex-direction: column; min-height: 70vh; overflow: hidden; }
+  header { display: flex; flex-wrap: wrap; gap: .8rem; align-items: center; justify-content: space-between; padding: .9rem clamp(1rem, 3vw, 3rem); }
+  .brand { display: flex; align-items: center; gap: .8rem; }
+  .eye-mini { width: 2.6rem; height: 2.6rem; border-radius: 50%; flex: none;
+    background: radial-gradient(circle, #0b0806 0 26%, transparent 27%), radial-gradient(circle, #ffd56b 0 30%, var(--saffron) 58%, #8a4a0c 80%, #2a1503 82%); box-shadow: 0 0 1.2rem rgba(242,169,59,.45); }
+  header h1 { margin: 0; font: 700 1.9rem/1 var(--kufi); color: var(--sand); letter-spacing: .02em; }
+  header h1 small { display: block; font: 400 .72rem/1.4 "IBM Plex Sans Arabic", sans-serif; color: var(--muted); letter-spacing: 0; margin-top: .2rem; }
+  .controls { display: flex; flex-wrap: wrap; gap: .5rem; align-items: center; font-size: .9rem; }
+  .controls label { display: flex; align-items: center; gap: .4rem; color: var(--muted); }
+  button.big { background: linear-gradient(135deg, var(--saffron), #d9822b); color: #1b0f0c; border: none; font-weight: 700; }
+  .staff { width: 100%; justify-content: flex-end; padding-top: .5rem; border-top: 1px dashed var(--line); }
+  .staff a { color: var(--muted); }
 
-  .stage { display: flex; flex-direction: column; align-items: center; gap: .9rem; padding: 2.4rem 1rem 1rem; }
-  #mic {
-    position: relative; width: clamp(8rem, 18vw, 13rem); height: clamp(8rem, 18vw, 13rem); border-radius: 50%; border: none; padding: 0;
-    font-size: clamp(2.6rem, 5vw, 4rem); color: #fff;
-    background: radial-gradient(circle at 35% 30%, #b9a8ff, var(--a2) 45%, #2a1d73 100%);
-    box-shadow: 0 0 2.5rem rgba(124,92,255,.55), inset 0 0 2rem rgba(255,255,255,.25);
-    animation: breathe 3.5s ease-in-out infinite;
-  }
-  #mic::before, #mic::after { content: ""; position: absolute; inset: -.6rem; border-radius: 50%; border: 2px solid rgba(124,92,255,.35); pointer-events: none; }
-  #mic::after { inset: -1.4rem; border-color: rgba(62,230,193,.18); }
-  #mic.listening { background: radial-gradient(circle at 35% 30%, #a8fff0, var(--a1) 45%, #0b6b5a 100%); box-shadow: 0 0 3.5rem rgba(62,230,193,.75); animation: none; }
-  #mic.listening::before, #mic.listening::after { border-color: var(--a1); animation: ripple 1.4s ease-out infinite; }
-  #mic.listening::after { animation-delay: .7s; }
-  #mic.thinking { animation: spin 1.6s linear infinite; background: conic-gradient(var(--a1), var(--a2), var(--a3), var(--a1)); }
-  #mic.speaking { background: radial-gradient(circle at 35% 30%, #ffe2a8, var(--a3) 45%, #7a4a00 100%); box-shadow: 0 0 3rem rgba(255,181,71,.6); animation: talk .5s ease-in-out infinite alternate; }
-  @keyframes breathe { 50% { transform: scale(1.04); box-shadow: 0 0 3.5rem rgba(124,92,255,.75), inset 0 0 2rem rgba(255,255,255,.25); } }
-  @keyframes ripple { from { transform: scale(.9); opacity: 1; } to { transform: scale(1.5); opacity: 0; } }
-  @keyframes spin { to { transform: rotate(360deg); } }
-  @keyframes talk { to { transform: scale(1.06); } }
-  @media (prefers-reduced-motion: reduce) { #mic, #mic::before, #mic::after { animation: none !important; } }
-  .miclabel { font-weight: 700; font-size: 1.15rem; text-align: center; }
-  #status { color: var(--muted); font-size: .95rem; min-height: 1.5em; text-align: center; }
-  .samples { display: flex; flex-wrap: wrap; gap: .5rem; justify-content: center; max-width: 46rem; }
-  .samples .hint { width: 100%; text-align: center; color: var(--muted); font-size: .8rem; }
-  .samples button { font-size: .9rem; border-color: rgba(62,230,193,.35); }
+  /* journey: how it works */
+  .how { list-style: none; margin: .3rem auto 0; padding: 0 clamp(1rem, 3vw, 3rem); max-width: 110rem; display: grid; grid-template-columns: repeat(4, 1fr); position: relative; }
+  .how::before { content: ""; position: absolute; inset-inline: 12%; top: 1.15rem; border-top: 2px dashed rgba(233,201,139,.35); }
+  .how li { position: relative; text-align: center; font-size: .8rem; color: var(--muted); padding: 0 .5rem; }
+  .how li i { display: grid; place-items: center; margin: 0 auto .35rem; width: 2.3rem; height: 2.3rem; border-radius: 50%; font: 700 1.05rem var(--kufi); font-style: normal; color: #1b0f0c; background: var(--sand); box-shadow: 0 0 0 .3rem var(--night2); }
+  .how b { display: block; color: var(--cream); font-size: .92rem; }
 
-  #log { flex: 1; overflow-y: auto; padding: 1rem 1.25rem; display: flex; flex-direction: column; gap: .7rem; max-height: 45vh; border-top: 1px solid var(--line); }
-  #log:empty::before { content: "المحادثة تظهر هنا · Your conversation appears here"; color: var(--muted); text-align: center; margin: auto; font-size: .9rem; }
+  main { display: grid; grid-template-columns: minmax(0, 1.65fr) minmax(18rem, 1fr); gap: 1.25rem; padding: 1.2rem clamp(1rem, 3vw, 3rem) 1rem; max-width: 110rem; margin: 0 auto; }
+  .panel { background: var(--glass); border: 1px solid var(--line); border-radius: 1.4rem; backdrop-filter: blur(10px); overflow: hidden; }
+  .chat { display: flex; flex-direction: column; }
+
+  /* falcon-eye mic */
+  .stage { display: flex; flex-direction: column; align-items: center; gap: .8rem; padding: 2.2rem 1rem 1.2rem; }
+  .composer { display: flex; gap: .6rem; align-items: center; width: 100%; max-width: 52rem; padding: .5rem; border-radius: 1.4rem; background: rgba(12,10,23,.7); border: 1.5px solid var(--sand); box-shadow: 0 0 2.5rem rgba(242,169,59,.18); }
+  .composer:focus-within { box-shadow: 0 0 0 .3rem rgba(242,169,59,.25), 0 0 3rem rgba(242,169,59,.3); }
+  .composer input { flex: 1; min-width: 0; border: none; background: transparent; font-size: 1.2rem; min-height: 3.6rem; padding: 0 .8rem; }
+  .composer input:focus-visible { outline: none; }
+  #mic { --pupil: 24%; position: relative; flex: none; width: 3.6rem; height: 3.6rem; min-height: 0; border-radius: 50%; padding: 0; border: .2rem solid #2a1503;
+    background: radial-gradient(circle, #ffd56b 0 28%, var(--saffron) 56%, #a8540f 76%, #3a1d05 100%);
+    box-shadow: 0 0 0 .35rem rgba(233,201,139,.25), 0 0 3rem rgba(242,169,59,.4); transition: box-shadow .3s; }
+  .chat:has(#log .msg) .samples { display: none; } /* examples step aside once a conversation starts */
+  #mic { --pupil: 30%; }
+  #mic.listening { --pupil: 38%; }
+  #mic .iris { position: absolute; inset: 0; border-radius: 50%; background: repeating-conic-gradient(rgba(90,40,0,.32) 0 2deg, transparent 2deg 7deg); }
+  #mic .pupil { position: absolute; inset: calc(50% - var(--pupil)); border-radius: 50%; background: radial-gradient(circle at 50% 45%, #1a120c, #050302); display: grid; place-items: center; transition: inset .35s ease; }
+  #mic .pupil svg { width: 38%; height: 38%; fill: var(--sand); opacity: .9; }
+  #mic .glint { position: absolute; width: 16%; height: 16%; top: 22%; left: 26%; border-radius: 50%; background: radial-gradient(circle, #fff, #fff0 70%); }
+  #mic:hover { box-shadow: 0 0 0 .35rem rgba(233,201,139,.45), 0 0 4rem rgba(242,169,59,.6); }
+  #mic.listening { --pupil: 33%; box-shadow: 0 0 0 .35rem var(--palm), 0 0 4rem rgba(92,197,150,.6); animation: watch 1.6s ease-in-out infinite; }
+  #mic.thinking .iris { animation: turn 2.4s linear infinite; }
+  #mic.thinking { --pupil: 18%; }
+  #mic.speaking { --pupil: 21%; box-shadow: 0 0 0 .35rem var(--saffron), 0 0 4.5rem rgba(242,169,59,.75); }
+  @keyframes watch { 50% { box-shadow: 0 0 0 .7rem rgba(63,143,107,.35), 0 0 5rem rgba(92,197,150,.7); } }
+  @keyframes turn { to { transform: rotate(360deg); } }
+  .wave { display: flex; gap: .25rem; align-items: center; height: 0; overflow: hidden; transition: height .2s; }
+  .composer:has(#mic.listening, #mic.speaking) + .wave { height: 2.2rem; }
+  .wave span { width: .3rem; height: .35rem; border-radius: 1rem; background: var(--sand); opacity: .35; }
+  .composer:has(#mic.listening, #mic.speaking) + .wave span { opacity: 1; animation: bar .9s ease-in-out infinite; }
+  .composer:has(#mic.listening) + .wave span { background: var(--ok); }
+  .wave span:nth-child(3n) { animation-delay: -.3s !important; } .wave span:nth-child(3n+1) { animation-delay: -.6s !important; } .wave span:nth-child(4n) { animation-duration: .7s !important; }
+  @keyframes bar { 50% { height: 2.1rem; } }
+  @media (prefers-reduced-motion: reduce) { #mic, #mic *, .wave span { animation: none !important; } }
+  .miclabel { font: 700 2rem var(--kufi); color: var(--sand); text-align: center; line-height: 1.2; }
+  .miclabel small { display: block; font: 400 .8rem "IBM Plex Sans Arabic", sans-serif; color: var(--muted); }
+  #status { color: var(--muted); font-size: .9rem; min-height: 1.5em; text-align: center; }
+
+  /* ask about: one tile per animal */
+  .samples { display: grid; grid-template-columns: repeat(3, 1fr); gap: .7rem; width: 100%; max-width: 52rem; }
+  .samples .hint { grid-column: 1 / -1; text-align: center; color: var(--muted); font-size: .8rem; }
+  .samples button { text-align: start; padding: .8rem .9rem; border-radius: 1rem; background: rgba(233,201,139,.05); display: flex; flex-direction: column; gap: .15rem; min-height: 6rem; }
+  .samples button b { font: 700 1.25rem var(--kufi); color: var(--sand); }
+  .samples button small { color: var(--muted); font-size: .72rem; letter-spacing: .08em; text-transform: uppercase; }
+  .samples button span { font-size: .85rem; unicode-bidi: plaintext; }
+
+  #log { overflow-y: auto; padding: 1rem 1.25rem; display: flex; flex-direction: column; gap: .7rem; max-height: 42vh; min-height: 6rem; }
+  #log:empty::before { content: "المحادثة تظهر هنا · Your conversation appears here"; color: var(--muted); text-align: center; margin: auto; font-size: .85rem; }
   .msg { padding: .7rem 1rem; border-radius: 1rem; max-width: 85%; white-space: pre-wrap; unicode-bidi: plaintext; }
-  .msg.user { background: var(--me); align-self: flex-start; border-end-start-radius: .3rem; }
-  .msg.assistant { background: var(--ai); border: 1px solid var(--line); align-self: flex-end; border-end-end-radius: .3rem; }
+  .msg.user { background: rgba(233,201,139,.12); align-self: flex-start; border-end-start-radius: .25rem; }
+  .msg.assistant { background: rgba(255,255,255,.04); border: 1px solid var(--line); align-self: flex-end; border-end-end-radius: .25rem; }
   .msg.interim { opacity: .6; font-style: italic; }
   .msg.error { border-color: var(--harm); color: var(--harm); }
-  .msg.vet { background: rgba(62,230,193,.14); border: 1px solid var(--a1); align-self: flex-end; }
-  .bar { padding: .9rem 1.25rem 1.1rem; border-top: 1px solid var(--line); }
-  .textrow { display: flex; gap: .5rem; }
-  .textrow input { flex: 1; border-radius: 999px; }
-  #send { background: var(--a1); color: #061018; border: none; font-weight: 700; }
+  .msg.vet { background: rgba(63,143,107,.18); border: 1px solid var(--palm); align-self: flex-end; }
+  #send { background: linear-gradient(135deg, var(--saffron), #d9822b); color: #1b0f0c; border: none; font-weight: 700; min-height: 3.6rem; padding: 0 1.4rem; border-radius: 1rem; font-size: 1.05rem; }
 
-  aside { padding: 1.1rem; align-self: start; }
-  aside h2 { margin: 0 0 .6rem; font-size: 1.05rem; }
-  .legend { display: grid; gap: .25rem; font-size: .8rem; color: var(--muted); margin-bottom: .9rem; }
-  .dot { display: inline-block; width: .65rem; height: .65rem; border-radius: 50%; margin-inline-end: .4rem; vertical-align: middle; box-shadow: 0 0 .5rem currentColor; }
-  .card { background: rgba(255,255,255,.04); border: 1px solid var(--line); border-inline-start: 4px solid var(--more); border-radius: var(--r); padding: .8rem; margin-bottom: .7rem; font-size: .9rem; animation: pop .35s ease-out; }
+  aside { padding: 0 0 1rem; align-self: start; }
+  aside h2 { margin: 1rem 1.1rem .5rem; font: 700 1.25rem var(--kufi); color: var(--sand); }
+  aside h2 small { display: block; font: 400 .75rem "IBM Plex Sans Arabic", sans-serif; color: var(--muted); }
+  .legend { display: grid; grid-template-columns: 1fr 1fr; gap: .3rem .6rem; font-size: .75rem; color: var(--muted); margin: 0 1.1rem .9rem; }
+  .dot { display: inline-block; width: .6rem; height: .6rem; transform: rotate(45deg); margin-inline-end: .45rem; }
+  #records { padding: 0 1.1rem; }
+  .card { position: relative; background: rgba(255,255,255,.03); border: 1px solid var(--line); border-inline-start: .3rem solid var(--more); border-radius: .9rem; padding: .8rem .9rem; margin-bottom: .7rem; font-size: .9rem; animation: pop .35s ease-out; }
   @keyframes pop { from { opacity: 0; transform: translateY(.4rem); } }
-  .card h3 { margin: 0 0 .2rem; font-size: 1rem; unicode-bidi: plaintext; }
-  .card .meta { color: var(--muted); font-size: .75rem; }
-  .card p { margin: .4rem 0 0; unicode-bidi: plaintext; direction: ltr; text-align: left; color: var(--muted); font-size: .85rem; }
-  .tag { display: inline-block; font-size: .75rem; padding: .1rem .6rem; border-radius: 999px; color: #061018; font-weight: 700; margin-top: .3rem; }
-  .urgent { color: var(--harm); font-weight: 700; }
+  .card h3 { margin: 0 0 .2rem; font: 700 1.05rem var(--kufi); unicode-bidi: plaintext; }
+  .card .meta { color: var(--muted); font-size: .72rem; }
+  .card p { margin: .4rem 0 0; unicode-bidi: plaintext; direction: ltr; text-align: left; color: var(--muted); font-size: .82rem; }
+  .tag { display: inline-block; font-size: .72rem; padding: .15rem .65rem; border-radius: .3rem; color: #1b0f0c; font-weight: 700; margin-top: .35rem; }
+  .urgent { color: var(--harm); font-weight: 700; margin-top: .3rem; }
   .review { display: flex; gap: .4rem; flex-wrap: wrap; margin-top: .5rem; }
   .approved, .kb { color: var(--ok); font-weight: 700; }
-  .waiting { color: var(--mis); font-weight: 700; }
-  .vetans { width: 100%; margin-top: .3rem; padding: .6rem; border-radius: .7rem; background: rgba(62,230,193,.1); unicode-bidi: plaintext; }
-  .empty { color: var(--muted); font-size: .9rem; }
+  .waiting { color: var(--saffron); font-weight: 700; }
+  .vetans { width: 100%; margin-top: .3rem; padding: .6rem; border-radius: .7rem; background: rgba(63,143,107,.15); unicode-bidi: plaintext; }
+  .empty { color: var(--muted); font-size: .85rem; padding-bottom: .5rem; }
   .chk input { min-height: auto; }
-  .disclaimer { text-align: center; color: var(--muted); font-size: .75rem; padding: 0 1rem 1.25rem; }
+  .disclaimer { text-align: center; color: var(--muted); font-size: .72rem; padding: .5rem 1rem 1.5rem; }
 
-  @media (max-width: 900px) {
-    main { grid-template-columns: 1fr; }
-    .how { grid-template-columns: 1fr 1fr; }
-    #log { max-height: none; }
-    .chat { min-height: auto; }
-  }
-  @media (max-width: 520px) {
-    .how { grid-template-columns: 1fr; }
-    .how li:nth-child(n+3) { display: none; } /* keep phone screens short */
+  @media (max-width: 900px) { main { grid-template-columns: 1fr; } #log { max-height: none; } }
+  @media (max-width: 620px) {
+    .composer { flex-wrap: wrap; } .composer input { flex-basis: 100%; } #send { flex: 1; }
+    .samples { grid-template-columns: 1fr; } .samples button { min-height: auto; }
+    .how { grid-template-columns: repeat(4, 1fr); } .how li span { display: none; } .how li b { font-size: .72rem; }
     header h1 small { display: none; }
   }
 </style>
 </head>
 <body>
+<svg class="dunes" viewBox="0 0 1440 320" preserveAspectRatio="none" aria-hidden="true">
+  <path d="M0 210 C 240 140 420 250 720 190 S 1200 120 1440 200 V320 H0Z" fill="#2c2046" opacity=".55"/>
+  <path d="M0 260 C 300 200 520 300 860 240 S 1250 210 1440 250 V320 H0Z" fill="#3a2a4f" opacity=".6"/>
+</svg>
+<div class="sadu"></div>
 <header>
-  <div class="brand"><div class="logo" aria-hidden="true"></div>
-    <h1>رفيق · Rafeeq <small>مساعد ذكي للممارسات التراثية البيطرية · AI heritage vet assistant</small></h1>
+  <div class="brand"><div class="eye-mini" aria-hidden="true"></div>
+    <h1>رفيق <small>Rafeeq · مساعد ذكي يربط الموروث بالعلم البيطري · AI that checks heritage practice against veterinary science</small></h1>
   </div>
   <div class="controls">
-    <label>🌐
+    <label>
       <select id="lang" aria-label="لغة الكلام / Speaking language">
         <option value="ar-AE">العربية</option>
         <option value="en-US">English</option>
       </select>
     </label>
-    <button id="reset" class="big">👋 زائر جديد · New visitor</button>
+    <button id="reset" class="big">زائر جديد · New visitor</button>
     <button id="gear" title="إعدادات المشرف / Staff settings" aria-label="Staff settings">⚙︎</button>
   </div>
   <div class="controls staff" id="staff" hidden>
@@ -150,43 +186,44 @@
 </header>
 
 <ol class="how">
-  <li><span><b>اضغط وتكلم</b>Tap the orb and speak</span></li>
-  <li><span><b>نصيحة سريعة من الذكاء الاصطناعي</b>Get brief AI advice</span></li>
-  <li><span><b>الطبيب البيطري يعتمد الرد</b>A vet gives the final answer</span></li>
-  <li><span><b>رفيق يتعلم من الطبيب</b>Rafeeq learns from approved answers</span></li>
+  <li><i>١</i><b>تكلّم</b><span>Speak</span></li>
+  <li><i>٢</i><b>رفيق ينصحك</b><span>AI advises</span></li>
+  <li><i>٣</i><b>الطبيب يعتمد</b><span>Vet confirms</span></li>
+  <li><i>٤</i><b>رفيق يتعلّم</b><span>Rafeeq learns</span></li>
 </ol>
 
 <main>
   <section class="chat panel">
     <div class="stage">
-      <button id="mic" aria-label="اضغط وتكلم / Tap to talk">🎙️</button>
-      <div class="miclabel">اضغط وتكلم · Tap & speak</div>
-      <div id="status" role="status" aria-live="polite">احكِ لنا عن علاج أو ممارسة تقليدية لصقرك أو خيلك أو سلوقيك</div>
+      <div class="miclabel">اسأل رفيق<small>Ask Rafeeq about a traditional remedy or practice</small></div>
+      <div class="composer">
+        <input type="text" id="text" autofocus placeholder="اكتب سؤالك هنا… مثال: نعطي الصقر حرمل؟ · Type your question…" aria-label="Type a question">
+        <button id="send">إرسال · Send</button>
+        <button id="mic" aria-label="تكلم بدل الكتابة / Speak instead"><span class="iris"></span><span class="pupil"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 15a3 3 0 0 0 3-3V6a3 3 0 0 0-6 0v6a3 3 0 0 0 3 3zm5-3a5 5 0 0 1-10 0H5a7 7 0 0 0 6 6.9V21h2v-2.1A7 7 0 0 0 19 12z"/></svg></span><span class="glint"></span></button>
+      </div>
+      <div class="wave" aria-hidden="true"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
+      <div id="status" role="status" aria-live="polite">اكتب سؤالك، أو المس عين الصقر وتكلّم · Type, or touch the falcon's eye to speak</div>
       <div class="samples" id="samples">
-        <div class="hint">أو جرّب سؤال · or try one:</div>
-        <button>نعطي الصقر حرمل إذا مرض، زين؟</button>
-        <button>نكوي الخيل (الوسم) على الرجل إذا عرج</button>
-        <button>Is olive oil good for a saluki's coat?</button>
+        <div class="hint">أو اختر مثال · or pick an example</div>
+        <button data-q="نعطي الصقر حرمل إذا مرض، زين؟"><small>Falcons</small><b>الصقور</b><span>نعطي الصقر حرمل إذا مرض، زين؟</span></button>
+        <button data-q="نكوي الخيل (الوسم) على الرجل إذا عرج"><small>Horses</small><b>الخيل</b><span>نكوي الخيل (الوسم) على الرجل إذا عرج</span></button>
+        <button data-q="Is olive oil good for a saluki's coat?"><small>Salukis</small><b>السلوقي</b><span>Is olive oil good for a saluki's coat?</span></button>
       </div>
     </div>
+    <div class="sadu thin"></div>
     <div id="log" aria-live="polite"></div>
-    <div class="bar">
-      <div class="textrow">
-        <input type="text" id="text" placeholder="أو اكتب سؤالك هنا… · or type here…" aria-label="Type a question">
-        <button id="send">إرسال ↵</button>
-      </div>
-    </div>
   </section>
 
   <aside class="panel">
-    <h2>✨ ما سجّله رفيق · What Rafeeq logged</h2>
+    <div class="sadu thin"></div>
+    <h2>سجل الممارسات<small>What Rafeeq has logged and how it sorted it</small></h2>
     <div class="legend">
-      <div><span class="dot" style="background:var(--mis);color:var(--mis)"></span>يحتاج تصحيح · Needs a correction</div>
-      <div><span class="dot" style="background:var(--study);color:var(--study)"></span>تستحق الدراسة العلمية · Worth studying</div>
-      <div><span class="dot" style="background:var(--harm);color:var(--harm)"></span>قد تضر الحيوان · May harm the animal</div>
-      <div><span class="dot" style="background:var(--more);color:var(--more)"></span>نحتاج تفاصيل أكثر · Needs more detail</div>
+      <div><span class="dot" style="background:var(--mis)"></span>يحتاج تصحيح · Correct</div>
+      <div><span class="dot" style="background:var(--study)"></span>تستحق الدراسة · Study</div>
+      <div><span class="dot" style="background:var(--harm)"></span>قد تضر الحيوان · Harm</div>
+      <div><span class="dot" style="background:var(--more)"></span>تفاصيل أكثر · More info</div>
     </div>
-    <div id="records"><div class="empty">لا توجد ممارسات بعد.</div></div>
+    <div id="records"><div class="empty">لا توجد ممارسات بعد · Nothing logged yet</div></div>
   </aside>
 </main>
 <footer class="disclaimer">نموذج عرض بحثي، وليس استشارة بيطرية. في الحالات الطارئة راجع طبيباً بيطرياً فوراً · Research demo, not a veterinary consultation. In an emergency, see a vet now.</footer>
@@ -231,7 +268,7 @@ function setMic(state) { $("mic").className = state; }
 function renderRecords() {
   const list = Object.values(records);
   const box = $("records");
-  if (!list.length) { box.innerHTML = '<div class="empty">لا توجد ممارسات بعد.</div>'; return; }
+  if (!list.length) { box.innerHTML = '<div class="empty">لا توجد ممارسات بعد · Nothing logged yet</div>'; return; }
   box.innerHTML = "";
   for (const r of list.slice().reverse()) {
     const c = CAT[r.category] || CAT.needs_more_info;
@@ -304,7 +341,9 @@ function pickVoice(isArabic) {
 }
 
 let speakQueue = 0;
+let voiceMode = false; // read replies aloud only when the person spoke; typed questions get silent replies
 function speak(sentence) {
+  if (!voiceMode) return;
   const clean = sentence.replace(/[*_#`>]/g, "").trim();
   if (!synth || !clean) return;
   const isArabic = /[؀-ۿ]/.test(clean);
@@ -389,6 +428,7 @@ function startListening() {
   if (!SR) { setStatus("المتصفح لا يدعم التعرف على الكلام. استخدم Chrome أو Edge، أو اكتب."); return; }
   if (listening) return;
   stopSpeaking();
+  voiceMode = true;
   rec = new SR();
   rec.lang = $("lang").value;
   rec.interimResults = true;
@@ -421,8 +461,8 @@ $("mic").onclick = () => {
   startListening();
 };
 $("gear").onclick = () => { $("staff").hidden = !$("staff").hidden; };
-document.querySelectorAll("#samples button").forEach((b) => b.onclick = () => sendToClaude(b.textContent));
-$("send").onclick = () => { const t = $("text").value.trim(); if (t) { $("text").value = ""; sendToClaude(t); } };
+document.querySelectorAll("#samples button").forEach((b) => b.onclick = () => { voiceMode = false; sendToClaude(b.dataset.q); });
+$("send").onclick = () => { voiceMode = false; const t = $("text").value.trim(); if (t) { $("text").value = ""; sendToClaude(t); } };
 $("text").onkeydown = (e) => { if (e.key === "Enter") $("send").onclick(); };
 $("reset").onclick = () => { stopSpeaking(); messages = []; records = {}; cases = {}; sessionId = newSession(); store.set("rafeeq.messages", []); store.set("rafeeq.records", {}); renderRecords(); $("log").innerHTML = ""; setStatus("محادثة جديدة. اضغط وتكلم"); };
 
