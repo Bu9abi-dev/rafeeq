@@ -1,0 +1,474 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>رفيق | Rafeeq</title>
+<style>
+  :root {
+    --bg: #070b14; --bg2: #0d1424; --glass: rgba(255,255,255,.06); --glass2: rgba(255,255,255,.1);
+    --line: rgba(255,255,255,.12); --ink: #eef3ff; --muted: #9aa8c7;
+    --a1: #3ee6c1; --a2: #7c5cff; --a3: #ffb547;
+    --mis: #ffb547; --study: #4ea8ff; --harm: #ff5d6c; --more: #8b97b5; --ok: #3ee6c1;
+    --me: rgba(124,92,255,.22); --ai: rgba(255,255,255,.07);
+    --r: 1.1rem;
+  }
+  html { font-size: clamp(15px, 0.55vw + 9px, 30px); } /* scales up on TV/booth screens */
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; min-height: 100vh; color: var(--ink); font: 1rem/1.6 system-ui, "Segoe UI", Tahoma, sans-serif;
+    background: radial-gradient(60rem 40rem at 85% -10%, rgba(124,92,255,.35), transparent 60%),
+                radial-gradient(50rem 35rem at 0% 110%, rgba(62,230,193,.22), transparent 60%), var(--bg);
+  }
+  button, select, input { font: inherit; color: var(--ink); background: var(--glass); border: 1px solid var(--line); border-radius: 999px; padding: .55rem 1rem; min-height: 2.75rem; }
+  button { cursor: pointer; transition: transform .15s, background .2s; }
+  button:hover { background: var(--glass2); } button:active { transform: scale(.97); }
+  button:focus-visible, input:focus-visible, select:focus-visible { outline: 3px solid var(--a1); outline-offset: 2px; }
+  select option { background: var(--bg2); }
+
+  header { display: flex; flex-wrap: wrap; gap: .75rem; align-items: center; justify-content: space-between; padding: 1rem clamp(1rem, 3vw, 3rem); }
+  .brand { display: flex; align-items: center; gap: .7rem; }
+  .logo { width: 2.6rem; height: 2.6rem; border-radius: 30%; background: conic-gradient(from 200deg, var(--a1), var(--a2), var(--a3), var(--a1)); box-shadow: 0 0 1.5rem rgba(124,92,255,.6); }
+  header h1 { margin: 0; font-size: 1.5rem; line-height: 1.1; }
+  header h1 small { display: block; font-size: .75rem; font-weight: 400; color: var(--muted); }
+  .controls { display: flex; flex-wrap: wrap; gap: .5rem; align-items: center; font-size: .9rem; }
+  .controls label { display: flex; align-items: center; gap: .4rem; color: var(--muted); }
+  button.big { background: linear-gradient(135deg, var(--a1), var(--a2)); color: #061018; border: none; font-weight: 700; }
+  .staff { width: 100%; justify-content: flex-end; padding-top: .5rem; border-top: 1px dashed var(--line); }
+  .staff a { color: var(--muted); }
+  [hidden] { display: none !important; }
+
+  .how { list-style: none; display: grid; grid-template-columns: repeat(4, 1fr); gap: .75rem; margin: 0 auto; padding: 0 clamp(1rem, 3vw, 3rem); max-width: 110rem; counter-reset: s; }
+  .how li { counter-increment: s; background: var(--glass); border: 1px solid var(--line); border-radius: var(--r); padding: .7rem .9rem; font-size: .85rem; color: var(--muted); display: flex; gap: .6rem; align-items: center; }
+  .how li::before { content: counter(s); flex: none; width: 1.8rem; height: 1.8rem; border-radius: 50%; display: grid; place-items: center; font-weight: 700; color: #061018; background: linear-gradient(135deg, var(--a1), var(--a2)); }
+  .how b { color: var(--ink); display: block; font-size: .95rem; }
+
+  main { display: grid; grid-template-columns: minmax(0, 1.6fr) minmax(18rem, 1fr); gap: 1.25rem; padding: 1.25rem clamp(1rem, 3vw, 3rem); max-width: 110rem; margin: 0 auto; }
+  .panel { background: var(--glass); border: 1px solid var(--line); border-radius: calc(var(--r) * 1.4); backdrop-filter: blur(14px); }
+  .chat { display: flex; flex-direction: column; min-height: 70vh; overflow: hidden; }
+
+  .stage { display: flex; flex-direction: column; align-items: center; gap: .9rem; padding: 1.5rem 1rem 1rem; }
+  #mic {
+    position: relative; width: clamp(8rem, 18vw, 13rem); height: clamp(8rem, 18vw, 13rem); border-radius: 50%; border: none; padding: 0;
+    font-size: clamp(2.6rem, 5vw, 4rem); color: #fff;
+    background: radial-gradient(circle at 35% 30%, #b9a8ff, var(--a2) 45%, #2a1d73 100%);
+    box-shadow: 0 0 2.5rem rgba(124,92,255,.55), inset 0 0 2rem rgba(255,255,255,.25);
+    animation: breathe 3.5s ease-in-out infinite;
+  }
+  #mic::before, #mic::after { content: ""; position: absolute; inset: -.6rem; border-radius: 50%; border: 2px solid rgba(124,92,255,.35); pointer-events: none; }
+  #mic::after { inset: -1.4rem; border-color: rgba(62,230,193,.18); }
+  #mic.listening { background: radial-gradient(circle at 35% 30%, #a8fff0, var(--a1) 45%, #0b6b5a 100%); box-shadow: 0 0 3.5rem rgba(62,230,193,.75); animation: none; }
+  #mic.listening::before, #mic.listening::after { border-color: var(--a1); animation: ripple 1.4s ease-out infinite; }
+  #mic.listening::after { animation-delay: .7s; }
+  #mic.thinking { animation: spin 1.6s linear infinite; background: conic-gradient(var(--a1), var(--a2), var(--a3), var(--a1)); }
+  #mic.speaking { background: radial-gradient(circle at 35% 30%, #ffe2a8, var(--a3) 45%, #7a4a00 100%); box-shadow: 0 0 3rem rgba(255,181,71,.6); animation: talk .5s ease-in-out infinite alternate; }
+  @keyframes breathe { 50% { transform: scale(1.04); box-shadow: 0 0 3.5rem rgba(124,92,255,.75), inset 0 0 2rem rgba(255,255,255,.25); } }
+  @keyframes ripple { from { transform: scale(.9); opacity: 1; } to { transform: scale(1.5); opacity: 0; } }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  @keyframes talk { to { transform: scale(1.06); } }
+  @media (prefers-reduced-motion: reduce) { #mic, #mic::before, #mic::after { animation: none !important; } }
+  .miclabel { font-weight: 700; font-size: 1.15rem; text-align: center; }
+  #status { color: var(--muted); font-size: .95rem; min-height: 1.5em; text-align: center; }
+  .samples { display: flex; flex-wrap: wrap; gap: .5rem; justify-content: center; max-width: 46rem; }
+  .samples .hint { width: 100%; text-align: center; color: var(--muted); font-size: .8rem; }
+  .samples button { font-size: .9rem; border-color: rgba(62,230,193,.35); }
+
+  #log { flex: 1; overflow-y: auto; padding: 1rem 1.25rem; display: flex; flex-direction: column; gap: .7rem; max-height: 45vh; border-top: 1px solid var(--line); }
+  #log:empty::before { content: "المحادثة تظهر هنا · Your conversation appears here"; color: var(--muted); text-align: center; margin: auto; font-size: .9rem; }
+  .msg { padding: .7rem 1rem; border-radius: 1rem; max-width: 85%; white-space: pre-wrap; unicode-bidi: plaintext; }
+  .msg.user { background: var(--me); align-self: flex-start; border-end-start-radius: .3rem; }
+  .msg.assistant { background: var(--ai); border: 1px solid var(--line); align-self: flex-end; border-end-end-radius: .3rem; }
+  .msg.interim { opacity: .6; font-style: italic; }
+  .msg.error { border-color: var(--harm); color: var(--harm); }
+  .msg.vet { background: rgba(62,230,193,.14); border: 1px solid var(--a1); align-self: flex-end; }
+  .bar { padding: .9rem 1.25rem 1.1rem; border-top: 1px solid var(--line); }
+  .textrow { display: flex; gap: .5rem; }
+  .textrow input { flex: 1; border-radius: 999px; }
+  #send { background: var(--a1); color: #061018; border: none; font-weight: 700; }
+
+  aside { padding: 1.1rem; align-self: start; }
+  aside h2 { margin: 0 0 .6rem; font-size: 1.05rem; }
+  .legend { display: grid; gap: .25rem; font-size: .8rem; color: var(--muted); margin-bottom: .9rem; }
+  .dot { display: inline-block; width: .65rem; height: .65rem; border-radius: 50%; margin-inline-end: .4rem; vertical-align: middle; box-shadow: 0 0 .5rem currentColor; }
+  .card { background: rgba(255,255,255,.04); border: 1px solid var(--line); border-inline-start: 4px solid var(--more); border-radius: var(--r); padding: .8rem; margin-bottom: .7rem; font-size: .9rem; animation: pop .35s ease-out; }
+  @keyframes pop { from { opacity: 0; transform: translateY(.4rem); } }
+  .card h3 { margin: 0 0 .2rem; font-size: 1rem; unicode-bidi: plaintext; }
+  .card .meta { color: var(--muted); font-size: .75rem; }
+  .card p { margin: .4rem 0 0; unicode-bidi: plaintext; direction: ltr; text-align: left; color: var(--muted); font-size: .85rem; }
+  .tag { display: inline-block; font-size: .75rem; padding: .1rem .6rem; border-radius: 999px; color: #061018; font-weight: 700; margin-top: .3rem; }
+  .urgent { color: var(--harm); font-weight: 700; }
+  .review { display: flex; gap: .4rem; flex-wrap: wrap; margin-top: .5rem; }
+  .approved, .kb { color: var(--ok); font-weight: 700; }
+  .waiting { color: var(--mis); font-weight: 700; }
+  .vetans { width: 100%; margin-top: .3rem; padding: .6rem; border-radius: .7rem; background: rgba(62,230,193,.1); unicode-bidi: plaintext; }
+  .empty { color: var(--muted); font-size: .9rem; }
+  .chk input { min-height: auto; }
+  .disclaimer { text-align: center; color: var(--muted); font-size: .75rem; padding: 0 1rem 1.25rem; }
+
+  @media (max-width: 900px) {
+    main { grid-template-columns: 1fr; }
+    .how { grid-template-columns: 1fr 1fr; }
+    #log { max-height: none; }
+    .chat { min-height: auto; }
+  }
+  @media (max-width: 520px) {
+    .how { grid-template-columns: 1fr; }
+    .how li:nth-child(n+3) { display: none; } /* keep phone screens short */
+    header h1 small { display: none; }
+  }
+</style>
+</head>
+<body>
+<header>
+  <div class="brand"><div class="logo" aria-hidden="true"></div>
+    <h1>رفيق · Rafeeq <small>مساعد ذكي للممارسات التراثية البيطرية · AI heritage vet assistant</small></h1>
+  </div>
+  <div class="controls">
+    <label>🌐
+      <select id="lang" aria-label="لغة الكلام / Speaking language">
+        <option value="ar-AE">العربية</option>
+        <option value="en-US">English</option>
+      </select>
+    </label>
+    <button id="reset" class="big">👋 زائر جديد · New visitor</button>
+    <button id="gear" title="إعدادات المشرف / Staff settings" aria-label="Staff settings">⚙︎</button>
+  </div>
+  <div class="controls staff" id="staff" hidden>
+    <label>المستخدم / Audience
+      <select id="audience">
+        <option value="auto">تلقائي / Auto</option>
+        <option value="hobbyist">هاوٍ / Hobbyist</option>
+        <option value="vet">طبيب بيطري / Vet</option>
+      </select>
+    </label>
+    <label class="chk"><input type="checkbox" id="handsfree"> محادثة مستمرة / Hands-free</label>
+    <select id="voice" title="Voice" aria-label="Voice"></select>
+    <button id="exportJson">JSON</button>
+    <button id="exportCsv">CSV</button>
+    <a href="/vet">لوحة الطبيب / Vet dashboard</a>
+  </div>
+</header>
+
+<ol class="how">
+  <li><span><b>اضغط وتكلم</b>Tap the orb and speak</span></li>
+  <li><span><b>نصيحة سريعة من الذكاء الاصطناعي</b>Get brief AI advice</span></li>
+  <li><span><b>الطبيب البيطري يعتمد الرد</b>A vet gives the final answer</span></li>
+  <li><span><b>رفيق يتعلم من الطبيب</b>Rafeeq learns from approved answers</span></li>
+</ol>
+
+<main>
+  <section class="chat panel">
+    <div class="stage">
+      <button id="mic" aria-label="اضغط وتكلم / Tap to talk">🎙️</button>
+      <div class="miclabel">اضغط وتكلم · Tap & speak</div>
+      <div id="status" role="status" aria-live="polite">احكِ لنا عن علاج أو ممارسة تقليدية لصقرك أو خيلك أو سلوقيك</div>
+      <div class="samples" id="samples">
+        <div class="hint">أو جرّب سؤال · or try one:</div>
+        <button>نعطي الصقر حرمل إذا مرض، زين؟</button>
+        <button>نكوي الخيل (الوسم) على الرجل إذا عرج</button>
+        <button>Is olive oil good for a saluki's coat?</button>
+      </div>
+    </div>
+    <div id="log" aria-live="polite"></div>
+    <div class="bar">
+      <div class="textrow">
+        <input type="text" id="text" placeholder="أو اكتب سؤالك هنا… · or type here…" aria-label="Type a question">
+        <button id="send">إرسال ↵</button>
+      </div>
+    </div>
+  </section>
+
+  <aside class="panel">
+    <h2>✨ ما سجّله رفيق · What Rafeeq logged</h2>
+    <div class="legend">
+      <div><span class="dot" style="background:var(--mis);color:var(--mis)"></span>يحتاج تصحيح · Needs a correction</div>
+      <div><span class="dot" style="background:var(--study);color:var(--study)"></span>تستحق الدراسة العلمية · Worth studying</div>
+      <div><span class="dot" style="background:var(--harm);color:var(--harm)"></span>قد تضر الحيوان · May harm the animal</div>
+      <div><span class="dot" style="background:var(--more);color:var(--more)"></span>نحتاج تفاصيل أكثر · Needs more detail</div>
+    </div>
+    <div id="records"><div class="empty">لا توجد ممارسات بعد.</div></div>
+  </aside>
+</main>
+<footer class="disclaimer">نموذج عرض بحثي، وليس استشارة بيطرية. في الحالات الطارئة راجع طبيباً بيطرياً فوراً · Research demo, not a veterinary consultation. In an emergency, see a vet now.</footer>
+
+<script>
+const $ = (id) => document.getElementById(id);
+const CAT = {
+  misinformation_to_correct: { ar: "يحتاج تصحيح · Needs a correction", color: "var(--mis)" },
+  worth_scientific_study: { ar: "تستحق الدراسة · Worth studying", color: "var(--study)" },
+  harmful_awareness: { ar: "قد تضر الحيوان · May harm the animal", color: "var(--harm)" },
+  needs_more_info: { ar: "نحتاج تفاصيل أكثر · Needs more detail", color: "var(--more)" },
+};
+
+// ---------- state ----------
+let messages = [];             // [{role, content}] sent to the server (content includes <record> so Claude keeps context)
+let records = {};              // practice_id -> record
+const store = {
+  get(k, d) { try { return JSON.parse(localStorage.getItem(k)) ?? d; } catch { return d; } },
+  set(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch {} },
+};
+messages = store.get("rafeeq.messages", []);
+records = store.get("rafeeq.records", {});
+let cases = {};                 // practice_id -> {code, status, vet}
+let sessionId = store.get("rafeeq.session") || newSession();
+function newSession() { const id = (crypto.randomUUID ? crypto.randomUUID() : String(Date.now()) + Math.random()); store.set("rafeeq.session", id); return id; }
+const announced = new Set(store.get("rafeeq.announced", []));
+["lang", "audience"].forEach((id) => { const v = store.get("rafeeq." + id); if (v) $(id).value = v; $(id).onchange = () => store.set("rafeeq." + id, $(id).value); });
+
+// ---------- UI helpers ----------
+function addBubble(role, text, cls = "") {
+  const d = document.createElement("div");
+  d.className = `msg ${role} ${cls}`;
+  d.textContent = text;
+  $("log").appendChild(d);
+  $("log").scrollTop = $("log").scrollHeight;
+  return d;
+}
+function spokenPart(text) { return text.split("<record>")[0].trim(); }
+function setStatus(s) { $("status").textContent = s; }
+function setMic(state) { $("mic").className = state; }
+
+function renderRecords() {
+  const list = Object.values(records);
+  const box = $("records");
+  if (!list.length) { box.innerHTML = '<div class="empty">لا توجد ممارسات بعد.</div>'; return; }
+  box.innerHTML = "";
+  for (const r of list.slice().reverse()) {
+    const c = CAT[r.category] || CAT.needs_more_info;
+    const el = document.createElement("div");
+    el.className = "card";
+    el.style.borderInlineStartColor = c.color;
+    el.innerHTML = `
+      <h3></h3>
+      <div class="meta"></div>
+      <span class="tag" style="background:${c.color}"></span>
+      ${r.urgent_welfare_flag ? '<div class="urgent">⚠️ خطر فوري على الحيوان</div>' : ""}
+      <p class="rat"></p><p class="note"></p>
+      <div class="review"></div>`;
+    el.querySelector("h3").textContent = `${r.practice_name || ""} ${r.practice_name_en ? "· " + r.practice_name_en : ""}`;
+    el.querySelector(".meta").textContent = [r.domain, r.species, r.practice_type, r.region?.emirate].filter(Boolean).join(" · ");
+    el.querySelector(".tag").textContent = c.ar;
+    el.querySelector(".rat").textContent = r.rationale || "";
+    el.querySelector(".note").textContent = r.vet_note ? "Vet note: " + r.vet_note : "";
+    const rv = el.querySelector(".review");
+    const cs = cases[r.practice_id];
+    if (cs?.status === "answered") {
+      const fc = CAT[cs.vet.final_category] || c;
+      rv.innerHTML = `<div class="approved"></div><div class="vetans"></div>`;
+      rv.querySelector(".approved").textContent = `✔ رد الطبيب (${fc.ar})`;
+      rv.querySelector(".vetans").textContent = cs.vet.vet_answer;
+    } else if (cs?.status === "auto") {
+      rv.innerHTML = `<div class="kb">✔ جواب معتمد مسبقاً من الطبيب</div>`;
+    } else if (cs?.status === "pending") {
+      rv.innerHTML = `<div class="waiting"></div>`;
+      rv.querySelector(".waiting").textContent = `⏳ أُرسلت للطبيب · رقم الحالة ${cs.code}`;
+    }
+    box.appendChild(el);
+  }
+}
+
+function extractRecords(text) {
+  const re = /<record>([\s\S]*?)<\/record>/g;
+  let m;
+  while ((m = re.exec(text))) {
+    try {
+      const r = JSON.parse(m[1].trim().replace(/^```(json)?|```$/g, ""));
+      if (r.practice_id) { r.updated_at = new Date().toISOString(); records[r.practice_id] = { ...records[r.practice_id], ...r }; }
+    } catch (e) { console.warn("bad record JSON", e); }
+  }
+  store.set("rafeeq.records", records);
+  renderRecords();
+}
+
+// ---------- text to speech ----------
+const synth = window.speechSynthesis;
+let voices = [];
+function loadVoices() {
+  voices = synth ? synth.getVoices() : [];
+  const sel = $("voice"), prev = store.get("rafeeq.voice");
+  sel.innerHTML = '<option value="">صوت تلقائي / Auto voice</option>';
+  voices.filter((v) => /^(ar|en)/i.test(v.lang)).forEach((v) => {
+    const o = document.createElement("option"); o.value = v.name; o.textContent = `${v.name} (${v.lang})`; sel.appendChild(o);
+  });
+  if (prev) sel.value = prev;
+}
+if (synth) { loadVoices(); synth.onvoiceschanged = loadVoices; }
+$("voice").onchange = () => store.set("rafeeq.voice", $("voice").value);
+
+function pickVoice(isArabic) {
+  const chosen = voices.find((v) => v.name === $("voice").value);
+  if (chosen && chosen.lang.toLowerCase().startsWith(isArabic ? "ar" : "en")) return chosen;
+  const pool = voices.filter((v) => v.lang.toLowerCase().startsWith(isArabic ? "ar" : "en"));
+  const score = (v) => (/AE|Gulf|Fatima|Hamdan/i.test(v.name + v.lang) ? 4 : 0) + (/Natural|Online|Neural/i.test(v.name) ? 2 : 0) + (/Google/i.test(v.name) ? 1 : 0);
+  return pool.sort((a, b) => score(b) - score(a))[0] || null;
+}
+
+let speakQueue = 0;
+function speak(sentence) {
+  const clean = sentence.replace(/[*_#`>]/g, "").trim();
+  if (!synth || !clean) return;
+  const isArabic = /[؀-ۿ]/.test(clean);
+  const u = new SpeechSynthesisUtterance(clean);
+  const v = pickVoice(isArabic);
+  if (v) u.voice = v;
+  u.lang = v ? v.lang : (isArabic ? "ar-AE" : "en-US");
+  u.rate = 1.0;
+  speakQueue++;
+  setMic("speaking"); setStatus("يتكلم… اضغط للمقاطعة");
+  u.onend = u.onerror = () => { speakQueue--; if (speakQueue <= 0) { speakQueue = 0; onSpeechDone(); } };
+  synth.speak(u);
+}
+function stopSpeaking() { if (synth) synth.cancel(); speakQueue = 0; }
+
+let streamDone = true;
+function onSpeechDone() {
+  if (!streamDone) return;
+  setMic(""); setStatus("اضغط وتكلم · Tap & speak");
+  if ($("handsfree").checked && !aborted) setTimeout(startListening, 350);
+}
+
+// ---------- talking to Claude ----------
+let controller = null, aborted = false;
+async function sendToClaude(userText) {
+  stopSpeaking();
+  aborted = false;
+  messages.push({ role: "user", content: userText });
+  addBubble("user", userText);
+  const bubble = addBubble("assistant", "…");
+  setMic("thinking"); setStatus("يفكر…");
+  streamDone = false;
+
+  let full = "", spokenUpTo = 0, inRecord = false;
+  const flushSentences = (final) => {
+    if (inRecord) return;
+    const visible = full.split("<record")[0];
+    if (full.includes("<record")) inRecord = true;
+    let rest = visible.slice(spokenUpTo);
+    const re = /[^.!?؟\n]+[.!?؟\n]+/g; let m, consumed = 0;
+    while ((m = re.exec(rest))) { speak(m[0]); consumed = re.lastIndex; }
+    spokenUpTo += consumed;
+    if (final || inRecord) { const tail = visible.slice(spokenUpTo); if (tail.trim()) speak(tail); spokenUpTo = visible.length; }
+  };
+
+  try {
+    controller = new AbortController();
+    const res = await fetch("/api/chat", {
+      method: "POST", headers: { "Content-Type": "application/json" }, signal: controller.signal,
+      body: JSON.stringify({ messages, sessionId, settings: { audience: $("audience").value } }),
+    });
+    if (!res.ok) throw new Error(await res.text());
+    const reader = res.body.getReader(), dec = new TextDecoder();
+    while (true) {
+      const { value, done } = await reader.read();
+      if (done) break;
+      full += dec.decode(value, { stream: true });
+      bubble.textContent = spokenPart(full) || "…";
+      $("log").scrollTop = $("log").scrollHeight;
+      flushSentences(false);
+    }
+    flushSentences(true);
+  } catch (e) {
+    if (e.name !== "AbortError") { full += `\n[ERROR] ${e.message}`; }
+  }
+  streamDone = true;
+  if (full.includes("[ERROR]")) bubble.classList.add("error");
+  bubble.textContent = spokenPart(full) || "…";
+  full = full.replace(/<cases>[\s\S]*?<\/cases>/g, "").trim();
+  if (full.trim()) messages.push({ role: "assistant", content: full });
+  else messages.pop();
+  store.set("rafeeq.messages", messages);
+  extractRecords(full);
+  pollCases();
+  if (speakQueue === 0) onSpeechDone();
+}
+
+// ---------- speech to text ----------
+const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+let rec = null, listening = false;
+function startListening() {
+  if (!SR) { setStatus("المتصفح لا يدعم التعرف على الكلام. استخدم Chrome أو Edge، أو اكتب."); return; }
+  if (listening) return;
+  stopSpeaking();
+  rec = new SR();
+  rec.lang = $("lang").value;
+  rec.interimResults = true;
+  rec.continuous = false;
+  let finalText = "", interim = null;
+  rec.onstart = () => { listening = true; setMic("listening"); setStatus("أسمعك… / Listening…"); };
+  rec.onresult = (ev) => {
+    let txt = ""; finalText = "";
+    for (const r of ev.results) { if (r.isFinal) finalText += r[0].transcript; else txt += r[0].transcript; }
+    if (!interim) interim = addBubble("user", "", "interim");
+    interim.textContent = finalText + txt;
+  };
+  rec.onerror = (ev) => { if (ev.error === "not-allowed") setStatus("اسمح للمتصفح باستخدام الميكروفون."); else if (ev.error !== "no-speech" && ev.error !== "aborted") setStatus("خطأ في الميكروفون: " + ev.error); };
+  rec.onend = () => {
+    listening = false; setMic("");
+    if (interim) interim.remove();
+    const text = (finalText || interim?.textContent || "").trim();
+    if (text) sendToClaude(text);
+    else setStatus("اضغط وتكلم · Tap & speak");
+  };
+  rec.start();
+}
+
+$("mic").onclick = () => {
+  if (listening) { rec.stop(); return; }                       // finish talking
+  if (speakQueue > 0 || !streamDone) {                           // interrupt Rafeeq
+    aborted = true; stopSpeaking(); if (controller && !streamDone) controller.abort();
+    setMic(""); setStatus("تم الإيقاف. اضغط وتكلم"); return;
+  }
+  startListening();
+};
+$("gear").onclick = () => { $("staff").hidden = !$("staff").hidden; };
+document.querySelectorAll("#samples button").forEach((b) => b.onclick = () => sendToClaude(b.textContent));
+$("send").onclick = () => { const t = $("text").value.trim(); if (t) { $("text").value = ""; sendToClaude(t); } };
+$("text").onkeydown = (e) => { if (e.key === "Enter") $("send").onclick(); };
+$("reset").onclick = () => { stopSpeaking(); messages = []; records = {}; cases = {}; sessionId = newSession(); store.set("rafeeq.messages", []); store.set("rafeeq.records", {}); renderRecords(); $("log").innerHTML = ""; setStatus("محادثة جديدة. اضغط وتكلم"); };
+
+// ---------- export ----------
+function download(name, text, type) {
+  const a = document.createElement("a");
+  a.href = URL.createObjectURL(new Blob([text], { type }));
+  a.download = name; a.click(); URL.revokeObjectURL(a.href);
+}
+$("exportJson").onclick = () => download("practices.json", JSON.stringify(Object.values(records), null, 2), "application/json");
+$("exportCsv").onclick = () => {
+  const cols = ["practice_id","domain","species","breed","practice_name","practice_name_en","practice_type","description","substances","dose","frequency","duration","purpose","claimed_outcome","region","source_type","years_experience","reported_by_expertise","language","category","confidence","evidence_level","rationale","vet_note","urgent_welfare_flag","consent","comparison","ai_advice","referral_needed","answered_from_kb","open_questions","updated_at"];
+  const cell = (v) => { const s = v == null ? "" : typeof v === "object" ? JSON.stringify(v) : String(v); return '"' + s.replace(/"/g, '""') + '"'; };
+  const rows = [cols.join(",")].concat(Object.values(records).map((r) => cols.map((c) => cell(r[c])).join(",")));
+  download("practices.csv", "﻿" + rows.join("\n"), "text/csv;charset=utf-8");
+};
+
+// ---------- vet replies come back here ----------
+async function pollCases() {
+  try {
+    const list = await (await fetch("/api/my-cases?session=" + encodeURIComponent(sessionId))).json();
+    cases = {};
+    for (const c of list) cases[c.practice_id] = c;
+    renderRecords();
+    for (const c of list) {
+      if (!streamDone) break; // don't touch the conversation while a reply is streaming
+      const key = c.id + "|" + c.vet?.answered_at;
+      if (c.status === "answered" && !announced.has(key)) {
+        announced.add(key); store.set("rafeeq.announced", [...announced]);
+        const name = c.record?.practice_name || "";
+        const text = `رد الطبيب على حالتك ${c.code} (${name}): ${c.vet.vet_answer}`;
+        addBubble("vet", "👨‍⚕️ " + text, "vet");
+        messages.push({ role: "user", content: `[System note: the veterinarian has now answered case ${c.code} about ${name}. Final category: ${c.vet.final_category}. Vet's answer: ${c.vet.vet_answer}. Treat this as final if the person asks about it.]` });
+        messages.push({ role: "assistant", content: "Noted. I will follow the vet's final answer." });
+        store.set("rafeeq.messages", messages);
+        if (!listening && streamDone) speak(text);
+      }
+    }
+  } catch {}
+}
+setInterval(pollCases, 5000);
+pollCases();
+
+// restore previous conversation
+for (const m of messages) { if (m.content.startsWith("[System note") || m.content.startsWith("Noted. I will follow")) continue; addBubble(m.role, m.role === "assistant" ? spokenPart(m.content) : m.content); }
+renderRecords();
+</script>
+</body>
+</html>

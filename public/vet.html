@@ -1,0 +1,201 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>لوحة الطبيب | Rafeeq vet</title>
+<style>
+  :root { --bg:#f7f4ee; --panel:#fff; --ink:#1f1b16; --muted:#6b6258; --line:#e4ddd2; --accent:#9a5b1e;
+    --mis:#b7791f; --study:#2b6cb0; --harm:#c53030; --more:#718096; --ok:#2f855a; --soft:#efe6d8; }
+  @media (prefers-color-scheme: dark) { :root { --bg:#16130f; --panel:#201c17; --ink:#f1ebe2; --muted:#a89d90; --line:#3a332b; --accent:#d08a45; --soft:#2e2720; } }
+  * { box-sizing: border-box; }
+  body { margin:0; background:var(--bg); color:var(--ink); font:15px/1.6 system-ui,"Segoe UI",Tahoma,sans-serif; }
+  header { display:flex; flex-wrap:wrap; gap:10px; justify-content:space-between; align-items:center; padding:12px 16px; background:var(--panel); border-bottom:1px solid var(--line); }
+  header h1 { margin:0; font-size:20px; }
+  main { max-width:1200px; margin:0 auto; padding:16px; }
+  .stats { display:grid; grid-template-columns:repeat(auto-fit,minmax(150px,1fr)); gap:10px; margin-bottom:16px; }
+  .stat { background:var(--panel); border:1px solid var(--line); border-radius:12px; padding:12px; }
+  .stat b { display:block; font-size:26px; }
+  .stat span { color:var(--muted); font-size:13px; }
+  .trend { display:flex; gap:4px; align-items:flex-end; height:40px; margin-top:6px; }
+  .trend i { flex:1; background:var(--ok); border-radius:3px 3px 0 0; min-height:2px; }
+  .tabs { display:flex; gap:8px; margin-bottom:12px; flex-wrap:wrap; }
+  button, select, textarea, input { font:inherit; color:var(--ink); background:var(--bg); border:1px solid var(--line); border-radius:8px; padding:6px 10px; }
+  button { cursor:pointer; } button.on { background:var(--accent); color:#fff; border-color:var(--accent); }
+  .case { background:var(--panel); border:1px solid var(--line); border-inline-start:6px solid var(--more); border-radius:12px; padding:14px; margin-bottom:12px; }
+  .case h3 { margin:0; font-size:16px; unicode-bidi:plaintext; }
+  .meta { color:var(--muted); font-size:13px; }
+  .pill { display:inline-block; font-size:12px; padding:1px 8px; border-radius:999px; color:#fff; }
+  .grid { display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-top:10px; }
+  @media (max-width:800px) { .grid { grid-template-columns:1fr; } }
+  .box { background:var(--soft); border-radius:8px; padding:10px; font-size:14px; unicode-bidi:plaintext; white-space:pre-wrap; }
+  .box h4 { margin:0 0 4px; font-size:13px; color:var(--muted); }
+  .ltr { direction:ltr; text-align:left; }
+  textarea { width:100%; min-height:80px; }
+  .row { display:flex; gap:8px; flex-wrap:wrap; align-items:center; margin-top:8px; }
+  .urgent { color:var(--harm); font-weight:700; }
+  #login { max-width:360px; margin:15vh auto; background:var(--panel); border:1px solid var(--line); border-radius:14px; padding:20px; display:grid; gap:10px; }
+  .empty { color:var(--muted); }
+  [hidden] { display:none !important; }
+  details summary { cursor:pointer; color:var(--muted); font-size:13px; }
+</style>
+</head>
+<body>
+<div id="login">
+  <h2 style="margin:0">لوحة الطبيب البيطري</h2>
+  <input type="password" id="pw" placeholder="كلمة المرور (VET_PASSWORD)">
+  <button id="go" class="on">دخول</button>
+  <div id="loginErr" class="urgent"></div>
+</div>
+
+<div id="app" hidden>
+<header>
+  <h1>👨‍⚕️ لوحة الطبيب · رفيق</h1>
+  <div class="row" style="margin:0">
+    <input id="vetName" placeholder="اسم الطبيب" style="width:160px">
+    <a href="/" style="color:var(--muted);font-size:13px">صفحة الزوار</a>
+  </div>
+</header>
+<main>
+  <div class="stats" id="stats"></div>
+  <div class="tabs">
+    <button data-tab="pending" class="on">بانتظار الرد</button>
+    <button data-tab="answered">تم الرد</button>
+    <button data-tab="auto">أجاب عنها الذكاء الاصطناعي</button>
+    <button data-tab="kb">قاعدة المعرفة المعتمدة</button>
+  </div>
+  <div id="list"></div>
+</main>
+</div>
+
+<script>
+const $ = (id) => document.getElementById(id);
+const CAT = {
+  misinformation_to_correct: { ar: "معلومة مغلوطة يصححها الطبيب", color: "var(--mis)" },
+  worth_scientific_study: { ar: "تستحق الدراسة العلمية", color: "var(--study)" },
+  harmful_awareness: { ar: "ضارة / خاطئة للتوعية", color: "var(--harm)" },
+  needs_more_info: { ar: "تحتاج معلومات أكثر", color: "var(--more)" },
+};
+let pw = sessionStorage.getItem("vetpw") || "";
+let tab = "pending", cases = [], kb = [], drafts = {}; const editing = new Set();
+try { $("vetName").value = localStorage.getItem("vetName") || ""; } catch {}
+$("vetName").onchange = () => { try { localStorage.setItem("vetName", $("vetName").value); } catch {} };
+
+async function api(path, body) {
+  const res = await fetch(path, { method: body ? "POST" : "GET", headers: { "x-vet-password": pw, "Content-Type": "application/json" }, body: body ? JSON.stringify(body) : undefined });
+  if (res.status === 401) throw new Error("401");
+  return res.json();
+}
+
+async function login() {
+  pw = $("pw").value || pw;
+  try { await api("/api/vet/stats"); sessionStorage.setItem("vetpw", pw); $("login").hidden = true; $("app").hidden = false; refresh(); setInterval(refresh, 5000); }
+  catch { $("loginErr").textContent = "كلمة المرور غير صحيحة"; }
+}
+$("go").onclick = login; $("pw").onkeydown = (e) => e.key === "Enter" && login();
+if (pw) login();
+
+document.querySelectorAll(".tabs button").forEach((b) => b.onclick = () => {
+  document.querySelectorAll(".tabs button").forEach((x) => x.classList.toggle("on", x === b)); tab = b.dataset.tab; render();
+});
+
+async function refresh() {
+  try {
+    const [s, c, k] = await Promise.all([api("/api/vet/stats"), api("/api/vet/cases"), api("/api/vet/knowledge")]);
+    cases = c; kb = k; renderStats(s);
+    // don't re-render while the vet is typing an answer
+    if (!document.activeElement || !["TEXTAREA", "SELECT", "INPUT"].includes(document.activeElement.tagName)) render();
+  } catch {}
+}
+
+function renderStats(s) {
+  const trend = s.trend.length ? `<div class="trend">${s.trend.map((v) => `<i style="height:${Math.max(v, 3)}%" title="${v}%"></i>`).join("")}</div>` : "";
+  $("stats").innerHTML = `
+    <div class="stat"><b>${s.pending}</b><span>بانتظار ردك</span></div>
+    <div class="stat"><b>${s.answered}</b><span>رد عليها الطبيب</span></div>
+    <div class="stat"><b>${s.ai_vet_agreement_pct ?? "–"}${s.ai_vet_agreement_pct == null ? "" : "%"}</b><span>توافق تصنيف الذكاء الاصطناعي مع الطبيب</span></div>
+    <div class="stat"><b>${s.auto}</b><span>أجاب عنها المساعد من إجابات الطبيب المعتمدة</span></div>
+    <div class="stat"><b>${s.knowledge}</b><span>إجابات معتمدة في قاعدة المعرفة</span></div>
+    <div class="stat"><b>${s.independence_pct}%</b><span>نسبة الأسئلة المجابة من المعرفة المعتمدة (كل 10 حالات). الطبيب يراجعها ويعدّلها دائماً</span>${trend}</div>`;
+}
+
+const esc = (t) => String(t ?? "").replace(/[&<>"]/g, (ch) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[ch]));
+
+function caseCard(c) {
+  const r = c.record || {}, cat = CAT[r.category] || CAT.needs_more_info;
+  const cmp = r.comparison || {};
+  const subs = (r.substances || []).map((x) => [x.local_name, x.scientific_name_suggested && `(${x.scientific_name_suggested})`, x.part_used, x.preparation].filter(Boolean).join(" ")).join("؛ ");
+  const transcript = (c.transcript || []).map((m) => `${m.role === "user" ? "👤" : "🤖"} ${m.text}`).join("\n\n");
+  const final = c.vet ? CAT[c.vet.final_category] : null;
+  return `<div class="case" style="border-inline-start-color:${(final || cat).color}">
+    <div class="row" style="margin:0;justify-content:space-between">
+      <h3>${esc(r.practice_name)} ${r.practice_name_en ? "· " + esc(r.practice_name_en) : ""}</h3>
+      <span class="meta">${c.session_id === "seed" ? "📝 مسودة للمراجعة · " : ""}حالة رقم ${esc(c.code)} · ${new Date(c.updated_at).toLocaleString("ar-AE")}</span>
+    </div>
+    <div class="meta">${[r.domain, r.species, r.breed, r.practice_type, r.region?.emirate, r.reported_by_expertise === "vet" ? "المرسل: طبيب" : "المرسل: هاوٍ"].filter(Boolean).map(esc).join(" · ")}</div>
+    ${r.urgent_welfare_flag ? '<div class="urgent">⚠️ خطر فوري على الحيوان</div>' : ""}
+    <div class="row"><span class="pill" style="background:${cat.color}">تصنيف الذكاء الاصطناعي: ${cat.ar} · ${Math.round((r.confidence || 0) * 100)}%</span>
+      ${r.answered_from_kb ? `<span class="meta">طابقها المساعد مع: ${esc(r.answered_from_kb)} ${esc((kb.find((k) => k.id === r.answered_from_kb) || {}).practice_name || "")}</span>` : ""}
+      ${r.safety_net ? '<span class="meta">⚠️ فحص الكلمات الخطرة أجبر الإحالة</span>' : ""}</div>
+    <div class="grid">
+      <div class="box ltr"><h4>Description</h4>${esc(r.description)}${subs ? "\nSubstances: " + esc(subs) : ""}${r.dose ? "\nDose: " + esc(r.dose) : ""}${r.purpose ? "\nPurpose: " + esc(r.purpose) : ""}${r.claimed_outcome ? "\nClaimed outcome: " + esc(r.claimed_outcome) : ""}</div>
+      <div class="box ltr"><h4>AI comparison</h4>🌿 Herbal: ${esc(cmp.herbal_evidence || "–")}\n📜 Traditional medicine: ${esc(cmp.traditional_medicine || "–")}\n🩺 Veterinary evidence: ${esc(cmp.veterinary_evidence || "–")}\n\nRationale: ${esc(r.rationale)}\nVet note suggestion: ${esc(r.vet_note)}</div>
+    </div>
+    <div class="box" style="margin-top:10px"><h4>نصيحة الذكاء الاصطناعي للشخص</h4>${esc(r.ai_advice || "–")}</div>
+    <details style="margin-top:8px"><summary>المحادثة كاملة</summary><div class="box" style="margin-top:6px">${esc(transcript)}</div></details>
+    ${c.status === "answered" && !editing.has(c.id) ? `
+      <div class="box" style="margin-top:10px;border:1px solid var(--ok)"><h4>ردك النهائي (${esc(c.vet.vet_name)}) · ${final.ar} ${c.vet.agreed_with_ai ? "· موافق للذكاء الاصطناعي" : "· عدّلت التصنيف"}</h4>${esc(c.vet.vet_answer)}</div>
+      <div class="row"><button data-reopen="${c.id}">تعديل الرد</button></div>` : answerForm(c)}
+  </div>`;
+}
+
+function answerForm(c) {
+  const r = c.record || {}, d = drafts[c.id] || {};
+  const opts = Object.entries(CAT).map(([k, v]) => `<option value="${k}" ${k === (d.cat || r.category) ? "selected" : ""}>${v.ar}</option>`).join("");
+  return `<div style="margin-top:10px">
+    <textarea data-ans="${c.id}" placeholder="اكتب الرد النهائي للشخص (يُعرض له ويُقرأ بصوت)…">${esc(d.text ?? r.suggested_answer ?? "")}</textarea>
+    <div class="row">
+      <label>التصنيف النهائي <select data-cat="${c.id}">${opts}</select></label>
+      <button data-send="${c.id}">إرسال الرد للشخص فقط</button>
+      <button class="on" data-send="${c.id}" data-kb="1">إرسال + اعتماده كقاعدة عامة (يتعلم منها المساعد)</button>
+    </div></div>`;
+}
+
+function render() {
+  const list = $("list");
+  if (tab === "kb") {
+    list.innerHTML = kb.length ? kb.slice().reverse().map((k) => `<div class="case" style="border-inline-start-color:${(CAT[k.final_category] || CAT.needs_more_info).color}">
+      <div class="row" style="margin:0;justify-content:space-between"><h3>${esc(k.practice_name)} ${k.practice_name_en ? "· " + esc(k.practice_name_en) : ""}</h3><span class="meta">${esc(k.id)}</span></div>
+      <div class="meta">${[k.domain, k.species, CAT[k.final_category]?.ar, "اعتمدها " + k.approved_by].filter(Boolean).map(esc).join(" · ")}</div>
+      <div class="box" style="margin-top:8px">${esc(k.vet_answer)}</div>
+      <div class="row"><button data-del="${k.id}">حذف من قاعدة المعرفة</button></div></div>`).join("")
+      : '<p class="empty">لا توجد إجابات معتمدة بعد. كل رد تعتمده يضاف هنا ويستخدمه المساعد في المرات القادمة.</p>';
+    return;
+  }
+  const shown = cases.filter((c) => c.status === tab);
+  list.innerHTML = shown.length ? shown.map(caseCard).join("") : '<p class="empty">لا توجد حالات هنا.</p>';
+  if (tab === "auto" && shown.length) list.insertAdjacentHTML("afterbegin", '<p class="meta">هذه أجاب عنها المساعد بنفسه من إجاباتك المعتمدة. راجعها، وإذا تبي تعدّل أي جواب اكتب ردك وسيصل للشخص.</p>');
+}
+
+document.addEventListener("input", (e) => {
+  const id = e.target.dataset.ans || e.target.dataset.cat;
+  if (!id) return;
+  drafts[id] = drafts[id] || {};
+  if (e.target.dataset.ans) drafts[id].text = e.target.value; else drafts[id].cat = e.target.value;
+});
+document.addEventListener("click", async (e) => {
+  const t = e.target;
+  if (t.dataset.send) {
+    const id = t.dataset.send;
+    const text = document.querySelector(`[data-ans="${id}"]`).value.trim();
+    if (!text) { alert("اكتب الرد أولاً"); return; }
+    t.disabled = true;
+    await api("/api/vet/answer", { id, vet_answer: text, final_category: document.querySelector(`[data-cat="${id}"]`).value, add_to_knowledge: t.dataset.kb === "1", vet_name: $("vetName").value || "الطبيب" });
+    delete drafts[id]; editing.delete(id); document.activeElement.blur(); refresh();
+  }
+  if (t.dataset.reopen) { const c = cases.find((x) => x.id === t.dataset.reopen); drafts[c.id] = { text: c.vet.vet_answer, cat: c.vet.final_category }; editing.add(c.id); render(); }
+  if (t.dataset.del && confirm("حذف هذه الإجابة من قاعدة المعرفة؟")) { await api("/api/vet/knowledge/delete", { id: t.dataset.del }); refresh(); }
+});
+</script>
+</body>
+</html>
